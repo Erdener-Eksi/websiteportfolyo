@@ -671,6 +671,7 @@ const Contact: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               required
+              autoFocus
             />
           </FormGroup>
 
