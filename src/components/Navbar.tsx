@@ -432,6 +432,7 @@ const Navbar = () => {
 
   const handleClick = (path: string) => {
     setExplodingLink(path);
+    setIsMobileMenuOpen(false);
     setTimeout(() => {
       setExplodingLink(null);
     }, 500);
