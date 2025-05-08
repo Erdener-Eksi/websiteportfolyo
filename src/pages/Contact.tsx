@@ -155,11 +155,12 @@ const NeonRobot = styled(motion.div)`
   right: 50px;
   width: 200px;
   height: 300px;
-  z-index: 0;
+  z-index: 1;
   animation: ${robotFloat} 4s ease-in-out infinite;
   filter: drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 4px #00ff00);
   transition: all 0.3s ease;
   overflow: visible;
+  pointer-events: none;
   
   &.jumping {
     animation: ${robotJump} 1s ease-in-out;
@@ -255,7 +256,7 @@ const ContactForm = styled(motion.form)`
   max-width: 600px;
   margin: 0 auto;
   position: relative;
-  z-index: 2;
+  z-index: 10;
 
   @media (max-width: 768px) {
     padding: 20px;
@@ -265,7 +266,7 @@ const ContactForm = styled(motion.form)`
 const FormGroup = styled.div`
   margin-bottom: 20px;
   position: relative;
-  z-index: 2;
+  z-index: 10;
 
   @media (max-width: 768px) {
     margin-bottom: 15px;
@@ -298,6 +299,8 @@ const Input = styled.input`
   -moz-appearance: none;
   appearance: none;
   cursor: text;
+  position: relative;
+  z-index: 10;
 
   &:focus {
     outline: none;
@@ -310,6 +313,8 @@ const Input = styled.input`
     padding: 12px;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    position: relative;
+    z-index: 10;
   }
 `;
 
@@ -320,23 +325,31 @@ const TextArea = styled.textarea`
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
   color: #fff;
-  font-size: 1rem;
+  font-size: 16px;
   min-height: 150px;
   resize: vertical;
   transition: all 0.3s ease;
   position: relative;
-  z-index: 2;
+  z-index: 10;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: text;
 
   &:focus {
     outline: none;
-    border-color: #4ecdc4;
-    box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
   }
 
   @media (max-width: 768px) {
-    padding: 10px;
-    font-size: 0.95rem;
+    padding: 12px;
+    font-size: 16px;
     min-height: 120px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    position: relative;
+    z-index: 10;
   }
 `;
 
