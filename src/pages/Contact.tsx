@@ -302,10 +302,10 @@ const Input = styled.input`
   position: relative;
   z-index: 10;
 
-  &:focus {
+  &:focus, &:hover {
     outline: none;
     border-color: #00ff00;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
   }
 
   @media (max-width: 768px) {
@@ -689,7 +689,6 @@ const Contact: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              autoFocus
               placeholder={t('contact.form.name')}
             />
           </FormGroup>
