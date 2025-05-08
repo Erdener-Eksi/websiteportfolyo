@@ -358,7 +358,7 @@ const Portfolio = () => {
                   {renderIcon(expandedProject === index)}
                 </IconWrapper>
               </ProjectHeader>
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 {expandedProject === index && (
                   <ProjectDescription
                     initial={{ height: 0, opacity: 0 }}
