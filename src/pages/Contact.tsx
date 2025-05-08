@@ -256,7 +256,7 @@ const ContactForm = styled(motion.form)`
   max-width: 600px;
   margin: 0 auto;
   position: relative;
-  z-index: 10;
+  z-index: 100;
 
   @media (max-width: 768px) {
     padding: 20px;
@@ -266,7 +266,7 @@ const ContactForm = styled(motion.form)`
 const FormGroup = styled.div`
   margin-bottom: 20px;
   position: relative;
-  z-index: 10;
+  z-index: 100;
 
   @media (max-width: 768px) {
     margin-bottom: 15px;
@@ -300,7 +300,7 @@ const Input = styled.input`
   appearance: none;
   cursor: text;
   position: relative;
-  z-index: 10;
+  z-index: 100;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 
@@ -316,7 +316,8 @@ const Input = styled.input`
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     position: relative;
-    z-index: 10;
+    z-index: 100;
+    pointer-events: auto;
   }
 `;
 
@@ -332,16 +333,18 @@ const TextArea = styled.textarea`
   resize: vertical;
   transition: all 0.3s ease;
   position: relative;
-  z-index: 10;
+  z-index: 100;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   cursor: text;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 
   &:focus {
     outline: none;
     border-color: #00ff00;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
   }
 
   @media (max-width: 768px) {
@@ -351,7 +354,8 @@ const TextArea = styled.textarea`
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     position: relative;
-    z-index: 10;
+    z-index: 100;
+    pointer-events: auto;
   }
 `;
 
