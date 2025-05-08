@@ -301,6 +301,8 @@ const Input = styled.input`
   cursor: text;
   position: relative;
   z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 
   &:focus, &:hover {
     outline: none;
@@ -690,6 +692,7 @@ const Contact: React.FC = () => {
               onChange={handleChange}
               required
               placeholder={t('contact.form.name')}
+              style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}
             />
           </FormGroup>
 
