@@ -7,13 +7,13 @@ import { useLanguage } from '../context/LanguageContext';
 
 const neonPulse = keyframes`
   0% {
-    filter: drop-shadow(0 0 2px #ff00ff) drop-shadow(0 0 4px #ff00ff);
+    filter: drop-shadow(0 0 1px #ff00ff) drop-shadow(0 0 2px #ff00ff);
   }
   50% {
-    filter: drop-shadow(0 0 4px #ff00ff) drop-shadow(0 0 8px #ff00ff);
+    filter: drop-shadow(0 0 2px #ff00ff) drop-shadow(0 0 4px #ff00ff);
   }
   100% {
-    filter: drop-shadow(0 0 2px #ff00ff) drop-shadow(0 0 4px #ff00ff);
+    filter: drop-shadow(0 0 1px #ff00ff) drop-shadow(0 0 2px #ff00ff);
   }
 `;
 
@@ -31,13 +31,13 @@ const float = keyframes`
 
 const robotPulse = keyframes`
   0% {
-    filter: drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 4px #00ff00);
+    filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
   }
   50% {
-    filter: drop-shadow(0 0 4px #00ff00) drop-shadow(0 0 8px #00ff00);
+    filter: drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 4px #00ff00);
   }
   100% {
-    filter: drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 4px #00ff00);
+    filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
   }
 `;
 
@@ -157,10 +157,11 @@ const NeonRobot = styled(motion.div)`
   height: 300px;
   z-index: 1;
   animation: ${robotFloat} 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 4px #00ff00);
+  filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
   transition: all 0.3s ease;
   overflow: visible;
   pointer-events: none;
+  opacity: 0.7;
   
   &.jumping {
     animation: ${robotJump} 1s ease-in-out;
@@ -179,9 +180,10 @@ const RobotSVG = styled.svg`
   height: 100%;
   fill: none;
   stroke: #00ff00;
-  stroke-width: 2;
+  stroke-width: 1.5;
   animation: ${robotPulse} 2s ease-in-out infinite;
   overflow: visible;
+  opacity: 0.8;
 `;
 
 const NeonSpaceship = styled(motion.div)`
@@ -192,8 +194,9 @@ const NeonSpaceship = styled(motion.div)`
   height: 60px;
   z-index: 1;
   animation: ${spaceshipFloat} 20s ease-in-out infinite;
-  filter: drop-shadow(0 0 5px #00ff00) drop-shadow(0 0 10px #00ff00);
+  filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
   pointer-events: none;
+  opacity: 0.7;
 `;
 
 const SpaceshipSVG = styled.svg`
@@ -201,8 +204,9 @@ const SpaceshipSVG = styled.svg`
   height: 100%;
   fill: none;
   stroke: #00ff00;
-  stroke-width: 2;
+  stroke-width: 1.5;
   animation: ${robotPulse} 2s ease-in-out infinite;
+  opacity: 0.8;
 `;
 
 const LaserBeam = styled.div`
@@ -222,6 +226,7 @@ const Container = styled.div`
   min-height: 100vh;
   padding: 80px 50px 50px;
   position: relative;
+  z-index: 1;
 
   @media (max-width: 768px) {
     padding: 60px 20px 30px;
@@ -232,6 +237,8 @@ const Content = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   color: #fff;
+  position: relative;
+  z-index: 2;
 `;
 
 const Title = styled(motion.h1)`
@@ -256,7 +263,7 @@ const ContactForm = styled(motion.form)`
   max-width: 600px;
   margin: 0 auto;
   position: relative;
-  z-index: 100;
+  z-index: 1000;
 
   @media (max-width: 768px) {
     padding: 20px;
@@ -266,7 +273,7 @@ const ContactForm = styled(motion.form)`
 const FormGroup = styled.div`
   margin-bottom: 20px;
   position: relative;
-  z-index: 100;
+  z-index: 1000;
 
   @media (max-width: 768px) {
     margin-bottom: 15px;
@@ -300,7 +307,7 @@ const Input = styled.input`
   appearance: none;
   cursor: text;
   position: relative;
-  z-index: 100;
+  z-index: 1000;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 
@@ -316,7 +323,7 @@ const Input = styled.input`
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     position: relative;
-    z-index: 100;
+    z-index: 1000;
     pointer-events: auto;
   }
 `;
@@ -333,7 +340,7 @@ const TextArea = styled.textarea`
   resize: vertical;
   transition: all 0.3s ease;
   position: relative;
-  z-index: 100;
+  z-index: 1000;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -354,7 +361,7 @@ const TextArea = styled.textarea`
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     position: relative;
-    z-index: 100;
+    z-index: 1000;
     pointer-events: auto;
   }
 `;
