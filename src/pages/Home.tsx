@@ -490,8 +490,7 @@ const Home: React.FC = () => {
   const { scrollY } = useScroll();
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [showWelcome, setShowWelcome] = useState(true);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(false);
 
   const y = useTransform(scrollY, [0, 1000], [0, -1000]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -513,23 +512,20 @@ const Home: React.FC = () => {
   ];
 
   useEffect(() => {
-    // Menüden gelip gelmediğini kontrol et
-    const isFromMenu = sessionStorage.getItem('fromMenu') === 'true';
+    // Sayfa yenilendiğinde veya direkt anasayfaya gelindiğinde animasyonu göster
+    const isPageRefresh = !sessionStorage.getItem('hasVisited');
     
-    if (isFirstLoad && !isFromMenu) {
+    if (isPageRefresh) {
       setShowWelcome(true);
+      sessionStorage.setItem('hasVisited', 'true');
+      
       const timer = setTimeout(() => {
         setShowWelcome(false);
       }, 2500);
+      
       return () => clearTimeout(timer);
-    } else {
-      setShowWelcome(false);
     }
-    
-    // Menüden geldiğini işaretle
-    sessionStorage.setItem('fromMenu', 'true');
-    setIsFirstLoad(false);
-  }, [isFirstLoad]);
+  }, []);
 
   return (
     <Container ref={containerRef}>
