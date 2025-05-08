@@ -287,24 +287,29 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   padding: 12px;
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
   color: #fff;
-  font-size: 1rem;
+  font-size: 16px;
   transition: all 0.3s ease;
-  position: relative;
-  z-index: 2;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: text;
 
   &:focus {
     outline: none;
-    border-color: #4ecdc4;
-    box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
   }
 
   @media (max-width: 768px) {
-    padding: 10px;
-    font-size: 0.95rem;
+    font-size: 16px;
+    padding: 12px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 `;
 
@@ -672,6 +677,7 @@ const Contact: React.FC = () => {
               onChange={handleChange}
               required
               autoFocus
+              placeholder={t('contact.form.name')}
             />
           </FormGroup>
 
