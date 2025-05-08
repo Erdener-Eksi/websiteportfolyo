@@ -7,13 +7,13 @@ import { useLanguage } from '../context/LanguageContext';
 
 const neonPulse = keyframes`
   0% {
-    filter: drop-shadow(0 0 1px #ff00ff) drop-shadow(0 0 2px #ff00ff);
+    filter: drop-shadow(0 0 0.5px #ff00ff) drop-shadow(0 0 1px #ff00ff);
   }
   50% {
-    filter: drop-shadow(0 0 2px #ff00ff) drop-shadow(0 0 4px #ff00ff);
+    filter: drop-shadow(0 0 1px #ff00ff) drop-shadow(0 0 2px #ff00ff);
   }
   100% {
-    filter: drop-shadow(0 0 1px #ff00ff) drop-shadow(0 0 2px #ff00ff);
+    filter: drop-shadow(0 0 0.5px #ff00ff) drop-shadow(0 0 1px #ff00ff);
   }
 `;
 
@@ -31,13 +31,13 @@ const float = keyframes`
 
 const robotPulse = keyframes`
   0% {
-    filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
+    filter: drop-shadow(0 0 0.5px #00ff00) drop-shadow(0 0 1px #00ff00);
   }
   50% {
-    filter: drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 4px #00ff00);
+    filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
   }
   100% {
-    filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
+    filter: drop-shadow(0 0 0.5px #00ff00) drop-shadow(0 0 1px #00ff00);
   }
 `;
 
@@ -157,11 +157,11 @@ const NeonRobot = styled(motion.div)`
   height: 300px;
   z-index: 1;
   animation: ${robotFloat} 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
+  filter: drop-shadow(0 0 0.5px #00ff00) drop-shadow(0 0 1px #00ff00);
   transition: all 0.3s ease;
   overflow: visible;
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.5;
   
   &.jumping {
     animation: ${robotJump} 1s ease-in-out;
@@ -180,10 +180,10 @@ const RobotSVG = styled.svg`
   height: 100%;
   fill: none;
   stroke: #00ff00;
-  stroke-width: 1.5;
+  stroke-width: 1;
   animation: ${robotPulse} 2s ease-in-out infinite;
   overflow: visible;
-  opacity: 0.8;
+  opacity: 0.6;
 `;
 
 const NeonSpaceship = styled(motion.div)`
@@ -194,9 +194,14 @@ const NeonSpaceship = styled(motion.div)`
   height: 60px;
   z-index: 1;
   animation: ${spaceshipFloat} 20s ease-in-out infinite;
-  filter: drop-shadow(0 0 1px #00ff00) drop-shadow(0 0 2px #00ff00);
+  filter: drop-shadow(0 0 0.5px #00ff00) drop-shadow(0 0 1px #00ff00);
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.5;
+
+  @media (max-width: 768px) {
+    pointer-events: none;
+    z-index: 1;
+  }
 `;
 
 const SpaceshipSVG = styled.svg`
@@ -204,9 +209,9 @@ const SpaceshipSVG = styled.svg`
   height: 100%;
   fill: none;
   stroke: #00ff00;
-  stroke-width: 1.5;
+  stroke-width: 1;
   animation: ${robotPulse} 2s ease-in-out infinite;
-  opacity: 0.8;
+  opacity: 0.6;
 `;
 
 const LaserBeam = styled.div`
@@ -230,6 +235,8 @@ const Container = styled.div`
 
   @media (max-width: 768px) {
     padding: 60px 20px 30px;
+    position: relative;
+    z-index: 1000;
   }
 `;
 
@@ -239,6 +246,11 @@ const Content = styled.div`
   color: #fff;
   position: relative;
   z-index: 2;
+
+  @media (max-width: 768px) {
+    position: relative;
+    z-index: 1000;
+  }
 `;
 
 const Title = styled(motion.h1)`
@@ -267,6 +279,9 @@ const ContactForm = styled(motion.form)`
 
   @media (max-width: 768px) {
     padding: 20px;
+    position: relative;
+    z-index: 1000;
+    pointer-events: auto;
   }
 `;
 
@@ -277,6 +292,9 @@ const FormGroup = styled.div`
 
   @media (max-width: 768px) {
     margin-bottom: 15px;
+    position: relative;
+    z-index: 1000;
+    pointer-events: auto;
   }
 `;
 
@@ -310,6 +328,7 @@ const Input = styled.input`
   z-index: 1000;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  pointer-events: auto;
 
   &:focus, &:hover {
     outline: none;
@@ -325,6 +344,8 @@ const Input = styled.input`
     position: relative;
     z-index: 1000;
     pointer-events: auto;
+    -webkit-user-select: text;
+    user-select: text;
   }
 `;
 
@@ -702,7 +723,7 @@ const Contact: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              placeholder={t('contact.form.name')}
+              placeholder={t('contact.namePlaceholder')}
               style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}
             />
           </FormGroup>
@@ -716,6 +737,7 @@ const Contact: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               required
+              placeholder={t('contact.emailPlaceholder')}
               style={{ borderColor: emailError ? '#ff6b6b' : 'rgba(255, 255, 255, 0.1)' }}
             />
             {emailError && (
@@ -738,6 +760,7 @@ const Contact: React.FC = () => {
               value={formData.subject}
               onChange={handleChange}
               required
+              placeholder={t('contact.subjectPlaceholder')}
             />
           </FormGroup>
 
@@ -749,6 +772,7 @@ const Contact: React.FC = () => {
               value={formData.message}
               onChange={handleChange}
               required
+              placeholder={t('contact.messagePlaceholder')}
             />
           </FormGroup>
 
