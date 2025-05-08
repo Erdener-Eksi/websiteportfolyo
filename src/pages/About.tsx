@@ -39,6 +39,14 @@ const AboutSection = styled(motion.div)`
   border-radius: 15px;
   padding: 30px;
   margin-bottom: 30px;
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+    border-color: rgba(0, 255, 0, 0.5);
+  }
 
   @media (max-width: 768px) {
     padding: 20px;
@@ -88,6 +96,16 @@ const SkillCard = styled(motion.div)`
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+    border-color: rgba(0, 255, 0, 0.5);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+  }
 
   @media (max-width: 768px) {
     padding: 15px;
@@ -112,12 +130,38 @@ const SkillLevel = styled.div`
   overflow: hidden;
 `;
 
-const SkillProgress = styled.div<{ level: number }>`
+const SkillProgress = styled(motion.div)<{ level: number }>`
   height: 100%;
   width: ${props => props.level}%;
   background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
   border-radius: 3px;
-  transition: width 1s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shine 2s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
 `;
 
 const About = () => {
@@ -151,7 +195,7 @@ const About = () => {
     { name: 'PyCharm', level: 70},
     { name: 'Android Studio', level: 60},
     { name: 'Xcode', level: 60},
-    
+    { name: 'Android Studio', level: 80},
   ];
 
   return (
@@ -196,7 +240,19 @@ const About = () => {
               >
                 <SkillTitle>{skill.name}</SkillTitle>
                 <SkillLevel>
-                  <SkillProgress level={skill.level} />
+                  <SkillProgress 
+                    level={skill.level}
+                    initial={{ width: 0, opacity: 0 }}
+                    animate={{ 
+                      width: `${skill.level}%`,
+                      opacity: 1
+                    }}
+                    transition={{ 
+                      duration: 1.5,
+                      delay: 0.8 + index * 0.1,
+                      ease: [0.6, -0.05, 0.01, 0.99]
+                    }}
+                  />
                 </SkillLevel>
               </SkillCard>
             ))}
