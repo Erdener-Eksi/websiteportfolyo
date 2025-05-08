@@ -92,7 +92,7 @@ const translations: Translations = {
     'contact.form.message': 'Mesaj',
     'contact.form.submit': 'Gönder',
     'contact.info.email': 'E-posta: erdener.eksi@gmail.com',
-    'contact.info.phone': 'Telefon: +90 532 -------',
+    'contact.info.phone': 'Telefon: +90 ',
     'contact.info.address': 'Adres: Ankara, Türkiye',
     'home.section1.title': 'Yazılım Geliştirme',
     'home.section1.description': 'İşinize özel, esnek ve ölçeklenebilir çözümler. Her işletmenin ihtiyacı farklıdır. Bu yüzden hazır paketlerle yetinmek yerine, size özel yazılım çözümleri sunuyorum. Web tabanlı uygulamalardan mobil sistemlere, masaüstü programlardan ERP entegrasyonlarına kadar farklı alanlarda iş süreçlerinizi hızlandıran ve kolaylaştıran çözümler geliştiriyorum.',
