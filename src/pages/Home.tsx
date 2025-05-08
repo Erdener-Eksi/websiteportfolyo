@@ -327,9 +327,9 @@ const WelcomeOverlay = styled(motion.div)`
   justify-content: center;
   align-items: center;
   background: radial-gradient(circle at center, 
-    rgba(0, 0, 0, 0.8) 0%, 
-    rgba(0, 0, 0, 0.9) 50%,
-    rgba(0, 0, 0, 0.95) 100%
+    rgba(0, 0, 0, 0.85) 0%, 
+    rgba(0, 0, 0, 0.95) 50%,
+    rgba(0, 0, 0, 0.98) 100%
   );
   z-index: 9999;
   pointer-events: none;
@@ -338,68 +338,70 @@ const WelcomeOverlay = styled(motion.div)`
 `;
 
 const WelcomeText = styled.h1`
-  font-size: 4.5rem;
+  font-size: 5rem;
   color: #fff;
   text-align: center;
-  animation: ${welcomeFade} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: ${welcomeFade} 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   font-family: 'Orbitron', sans-serif;
-  letter-spacing: 3px;
+  font-weight: 800;
+  letter-spacing: 4px;
   position: relative;
   z-index: 2;
   transform-style: preserve-3d;
   text-shadow: 
-    0 0 5px #fff,
     0 0 10px #fff,
-    0 0 20px #0ff,
+    0 0 20px #fff,
     0 0 30px #0ff,
     0 0 40px #0ff,
-    0 0 55px #0ff,
+    0 0 50px #0ff,
+    0 0 60px #0ff,
     0 0 70px #0ff;
   background: linear-gradient(
     45deg,
-    rgba(0, 255, 255, 0.1),
-    rgba(0, 255, 255, 0.2)
+    rgba(0, 255, 255, 0.2),
+    rgba(0, 255, 255, 0.3)
   );
-  padding: 20px 40px;
-  border-radius: 5px;
+  padding: 30px 60px;
+  border-radius: 10px;
   box-shadow: 
-    0 0 20px rgba(0, 255, 255, 0.2),
-    0 0 40px rgba(0, 255, 255, 0.1),
-    inset 0 0 20px rgba(0, 255, 255, 0.1);
+    0 0 30px rgba(0, 255, 255, 0.3),
+    0 0 60px rgba(0, 255, 255, 0.2),
+    inset 0 0 30px rgba(0, 255, 255, 0.2);
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 
   &::before {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
     background: linear-gradient(45deg, #0ff, #00f);
     z-index: -1;
-    border-radius: 7px;
-    filter: blur(15px);
-    opacity: 0.7;
+    border-radius: 12px;
+    filter: blur(20px);
+    opacity: 0.8;
     animation: borderGlow 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @keyframes borderGlow {
     0%, 100% {
-      opacity: 0.7;
-      filter: blur(15px);
+      opacity: 0.8;
+      filter: blur(20px);
       transform: scale(1) translateZ(0);
     }
     50% {
-      opacity: 0.9;
-      filter: blur(20px);
-      transform: scale(1.02) translateZ(20px);
+      opacity: 1;
+      filter: blur(25px);
+      transform: scale(1.03) translateZ(30px);
     }
   }
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
-    padding: 15px 30px;
+    font-size: 3rem;
+    padding: 20px 40px;
+    letter-spacing: 3px;
   }
 `;
 
@@ -416,7 +418,6 @@ const Home = () => {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showWelcome, setShowWelcome] = useState(true);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const y = useTransform(scrollY, [0, 1000], [0, -1000]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -438,24 +439,14 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    // Check if this is the first visit
-    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+    // Show animation on every page load
+    setShowWelcome(true);
     
-    if (hasSeenWelcome === null) {
-      // First visit - show animation
-      setShowWelcome(true);
-      localStorage.setItem('hasSeenWelcome', 'true');
-      
-      const timer = setTimeout(() => {
-        setShowWelcome(false);
-      }, 2500);
-
-      return () => clearTimeout(timer);
-    } else {
+    const timer = setTimeout(() => {
       setShowWelcome(false);
-    }
-    
-    setIsFirstLoad(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
