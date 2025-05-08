@@ -297,23 +297,23 @@ const ShootingStars = () => {
 const welcomeFade = keyframes`
   0% {
     opacity: 0;
-    transform: scale(0.8) translateZ(-200px) rotateX(-10deg);
-    filter: blur(20px);
+    transform: scale(0.95) translateY(20px) rotateX(20deg);
+    filter: blur(10px);
   }
   20% {
     opacity: 1;
-    transform: scale(1) translateZ(0) rotateX(0deg);
+    transform: scale(1) translateY(0) rotateX(0deg);
     filter: blur(0px);
   }
   80% {
     opacity: 1;
-    transform: scale(1) translateZ(0) rotateX(0deg);
+    transform: scale(1) translateY(0) rotateX(0deg);
     filter: blur(0px);
   }
   100% {
     opacity: 0;
-    transform: scale(1.2) translateZ(200px) rotateX(10deg);
-    filter: blur(20px);
+    transform: scale(1.05) translateY(-20px) rotateX(-20deg);
+    filter: blur(10px);
   }
 `;
 
@@ -326,82 +326,155 @@ const WelcomeOverlay = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at center, 
-    rgba(0, 0, 0, 0.85) 0%, 
-    rgba(0, 0, 0, 0.95) 50%,
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.95) 0%,
     rgba(0, 0, 0, 0.98) 100%
   );
+  backdrop-filter: blur(8px);
   z-index: 9999;
   pointer-events: none;
-  perspective: 2000px;
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  perspective: 1000px;
 `;
 
 const WelcomeText = styled.h1`
-  font-size: 5rem;
+  font-size: 4.5rem;
   color: #fff;
   text-align: center;
-  animation: ${welcomeFade} 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: ${welcomeFade} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   font-family: 'Orbitron', sans-serif;
-  font-weight: 800;
-  letter-spacing: 4px;
+  font-weight: 700;
+  letter-spacing: 2px;
   position: relative;
   z-index: 2;
-  transform-style: preserve-3d;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   text-shadow: 
-    0 0 10px #fff,
-    0 0 20px #fff,
-    0 0 30px #0ff,
-    0 0 40px #0ff,
-    0 0 50px #0ff,
-    0 0 60px #0ff,
-    0 0 70px #0ff;
-  background: linear-gradient(
-    45deg,
-    rgba(0, 255, 255, 0.2),
-    rgba(0, 255, 255, 0.3)
-  );
-  padding: 30px 60px;
-  border-radius: 10px;
-  box-shadow: 
-    0 0 30px rgba(0, 255, 255, 0.3),
-    0 0 60px rgba(0, 255, 255, 0.2),
-    inset 0 0 30px rgba(0, 255, 255, 0.2);
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    0 0 0.5px rgba(255, 255, 255, 0.9),
+    0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 1.5px rgba(255, 255, 255, 0.9),
+    0 0 2px rgba(255, 255, 255, 0.9),
+    0 0 2.5px rgba(255, 255, 255, 0.9),
+    0 0 3px rgba(255, 255, 255, 0.9),
+    0 0 3.5px rgba(255, 255, 255, 0.9),
+    0 0 4px rgba(255, 255, 255, 0.9),
+    0 0 4.5px rgba(255, 255, 255, 0.9),
+    0 0 5px rgba(255, 255, 255, 0.9),
+    0 0 7.5px rgba(0, 255, 255, 0.9),
+    0 0 10px rgba(0, 255, 255, 0.9),
+    0 0 12.5px rgba(0, 255, 255, 0.9),
+    0 0 15px rgba(0, 255, 255, 0.9),
+    0 0 17.5px rgba(0, 255, 255, 0.9),
+    0 0 20px rgba(0, 255, 255, 0.9),
+    0 0 25px rgba(0, 255, 255, 0.9),
+    0 0 30px rgba(0, 255, 255, 0.9),
+    0 0 35px rgba(0, 255, 255, 0.9),
+    0 0 40px rgba(0, 255, 255, 0.9),
+    0 0 45px rgba(0, 255, 255, 0.9),
+    0 0 50px rgba(0, 255, 255, 0.9),
+    0 0 55px rgba(0, 255, 255, 0.9),
+    0 0 60px rgba(0, 255, 255, 0.9),
+    0 0 65px rgba(0, 255, 255, 0.9),
+    0 0 70px rgba(0, 255, 255, 0.9),
+    0 0 75px rgba(0, 255, 255, 0.9),
+    0 0 80px rgba(0, 255, 255, 0.9),
+    0 0 85px rgba(0, 255, 255, 0.9),
+    0 0 90px rgba(0, 255, 255, 0.9),
+    0 0 95px rgba(0, 255, 255, 0.9),
+    0 0 100px rgba(0, 255, 255, 0.9);
+  background: transparent;
+  padding: 25px 50px;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0deg);
+  filter: blur(0.2px);
 
   &::before {
     content: '';
     position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    background: linear-gradient(45deg, #0ff, #00f);
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 255, 255, 0.15) 0%,
+      rgba(0, 255, 255, 0.1) 30%,
+      rgba(0, 255, 255, 0.05) 50%,
+      transparent 70%
+    );
     z-index: -1;
-    border-radius: 12px;
-    filter: blur(20px);
+    border-radius: 50%;
+    filter: blur(25px);
     opacity: 0.8;
-    animation: borderGlow 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: pulseGlow 3s ease-in-out infinite;
+    transform: translateZ(-10px);
+    backdrop-filter: blur(8px);
   }
 
-  @keyframes borderGlow {
+  &::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 255, 255, 0.2) 0%,
+      rgba(0, 255, 255, 0.15) 20%,
+      rgba(0, 255, 255, 0.1) 40%,
+      transparent 60%
+    );
+    z-index: -2;
+    border-radius: 50%;
+    filter: blur(35px);
+    opacity: 0.6;
+    animation: pulseGlow 3s ease-in-out infinite reverse;
+    transform: translateZ(-20px);
+    backdrop-filter: blur(12px);
+  }
+
+  @keyframes pulseGlow {
     0%, 100% {
-      opacity: 0.8;
-      filter: blur(20px);
-      transform: scale(1) translateZ(0);
+      opacity: 0.6;
+      filter: blur(25px);
+      transform: translateZ(-10px) scale(1);
     }
     50% {
-      opacity: 1;
-      filter: blur(25px);
-      transform: scale(1.03) translateZ(30px);
+      opacity: 0.8;
+      filter: blur(35px);
+      transform: translateZ(-10px) scale(1.1);
     }
   }
 
   @media (max-width: 768px) {
-    font-size: 3rem;
-    padding: 20px 40px;
-    letter-spacing: 3px;
+    font-size: 2.5rem;
+    padding: 20px 35px;
+    letter-spacing: 1px;
+    text-shadow: 
+      0 0 0.5px rgba(255, 255, 255, 0.9),
+      0 0 1px rgba(255, 255, 255, 0.9),
+      0 0 1.5px rgba(255, 255, 255, 0.9),
+      0 0 2px rgba(255, 255, 255, 0.9),
+      0 0 2.5px rgba(255, 255, 255, 0.9),
+      0 0 3px rgba(255, 255, 255, 0.9),
+      0 0 3.5px rgba(255, 255, 255, 0.9),
+      0 0 4px rgba(255, 255, 255, 0.9),
+      0 0 4.5px rgba(255, 255, 255, 0.9),
+      0 0 5px rgba(255, 255, 255, 0.9),
+      0 0 7.5px rgba(0, 255, 255, 0.9),
+      0 0 10px rgba(0, 255, 255, 0.9),
+      0 0 12.5px rgba(0, 255, 255, 0.9),
+      0 0 15px rgba(0, 255, 255, 0.9),
+      0 0 17.5px rgba(0, 255, 255, 0.9),
+      0 0 20px rgba(0, 255, 255, 0.9),
+      0 0 25px rgba(0, 255, 255, 0.9),
+      0 0 30px rgba(0, 255, 255, 0.9),
+      0 0 35px rgba(0, 255, 255, 0.9),
+      0 0 40px rgba(0, 255, 255, 0.9);
+    filter: blur(0.15px);
   }
 `;
 
@@ -413,11 +486,12 @@ const FloatingParticles = styled.div`
   z-index: 1;
 `;
 
-const Home = () => {
+const Home: React.FC = () => {
   const { scrollY } = useScroll();
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showWelcome, setShowWelcome] = useState(true);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const y = useTransform(scrollY, [0, 1000], [0, -1000]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -439,15 +513,23 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    // Show animation on every page load
-    setShowWelcome(true);
+    // Menüden gelip gelmediğini kontrol et
+    const isFromMenu = sessionStorage.getItem('fromMenu') === 'true';
     
-    const timer = setTimeout(() => {
+    if (isFirstLoad && !isFromMenu) {
+      setShowWelcome(true);
+      const timer = setTimeout(() => {
+        setShowWelcome(false);
+      }, 2500);
+      return () => clearTimeout(timer);
+    } else {
       setShowWelcome(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
+    }
+    
+    // Menüden geldiğini işaretle
+    sessionStorage.setItem('fromMenu', 'true');
+    setIsFirstLoad(false);
+  }, [isFirstLoad]);
 
   return (
     <Container ref={containerRef}>
