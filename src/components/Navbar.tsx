@@ -447,7 +447,7 @@ const Navbar = () => {
   return (
     <>
       <Nav>
-        <Logo to="/">Batuhan Erdener Ekşi</Logo>
+        <Logo to="/">BEE</Logo>
         <NavLinks>
           <NavLink to="/" $isExploding={explodingLink === '/'} onClick={() => handleClick('/')}>
             {t('nav.home')}
