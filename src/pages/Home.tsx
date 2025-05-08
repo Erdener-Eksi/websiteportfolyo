@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import * as THREE from 'three';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -293,10 +294,129 @@ const ShootingStars = () => {
   );
 };
 
+const welcomeFade = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateZ(-200px) rotateX(-10deg);
+    filter: blur(20px);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1) translateZ(0) rotateX(0deg);
+    filter: blur(0px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1) translateZ(0) rotateX(0deg);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2) translateZ(200px) rotateX(10deg);
+    filter: blur(20px);
+  }
+`;
+
+const WelcomeOverlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, 
+    rgba(0, 0, 0, 0.8) 0%, 
+    rgba(0, 0, 0, 0.9) 50%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  z-index: 9999;
+  pointer-events: none;
+  perspective: 2000px;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+`;
+
+const WelcomeText = styled.h1`
+  font-size: 4.5rem;
+  color: #fff;
+  text-align: center;
+  animation: ${welcomeFade} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 3px;
+  position: relative;
+  z-index: 2;
+  transform-style: preserve-3d;
+  text-shadow: 
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #0ff,
+    0 0 30px #0ff,
+    0 0 40px #0ff,
+    0 0 55px #0ff,
+    0 0 70px #0ff;
+  background: linear-gradient(
+    45deg,
+    rgba(0, 255, 255, 0.1),
+    rgba(0, 255, 255, 0.2)
+  );
+  padding: 20px 40px;
+  border-radius: 5px;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.2),
+    0 0 40px rgba(0, 255, 255, 0.1),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #0ff, #00f);
+    z-index: -1;
+    border-radius: 7px;
+    filter: blur(15px);
+    opacity: 0.7;
+    animation: borderGlow 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes borderGlow {
+    0%, 100% {
+      opacity: 0.7;
+      filter: blur(15px);
+      transform: scale(1) translateZ(0);
+    }
+    50% {
+      opacity: 0.9;
+      filter: blur(20px);
+      transform: scale(1.02) translateZ(20px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+    padding: 15px 30px;
+  }
+`;
+
+const FloatingParticles = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+`;
+
 const Home = () => {
   const { scrollY } = useScroll();
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const y = useTransform(scrollY, [0, 1000], [0, -1000]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -317,8 +437,41 @@ const Home = () => {
     }
   ];
 
+  useEffect(() => {
+    // Check if this is the first visit
+    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+    
+    if (hasSeenWelcome === null) {
+      // First visit - show animation
+      setShowWelcome(true);
+      localStorage.setItem('hasSeenWelcome', 'true');
+      
+      const timer = setTimeout(() => {
+        setShowWelcome(false);
+      }, 2500);
+
+      return () => clearTimeout(timer);
+    } else {
+      setShowWelcome(false);
+    }
+    
+    setIsFirstLoad(false);
+  }, []);
+
   return (
     <Container ref={containerRef}>
+      {showWelcome && (
+        <WelcomeOverlay
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <WelcomeText>
+            {t('home.welcome')}
+          </WelcomeText>
+        </WelcomeOverlay>
+      )}
       <ShootingStars />
       <Content>
         <TextContent
