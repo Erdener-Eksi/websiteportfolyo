@@ -256,6 +256,92 @@ const Logo = styled(Link)`
   }
 `;
 
+const ExclamationMark = styled.span`
+  display: inline-block;
+  position: relative;
+  color: #4ECDC4;
+  text-shadow: 0 0 10px rgba(78, 205, 196, 0.8),
+               0 0 20px rgba(78, 205, 196, 0.6),
+               0 0 30px rgba(78, 205, 196, 0.4);
+  animation: neonFlow 2s ease-in-out infinite;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 10px;
+    background: linear-gradient(to bottom,
+      rgba(78, 205, 196, 0.95) 0%,
+      rgba(78, 205, 196, 0.85) 30%,
+      rgba(78, 205, 196, 0.75) 60%,
+      rgba(78, 205, 196, 0.65) 100%
+    );
+    clip-path: path('M3 0C4.5 0 6 1.5 6 3C6 4.5 4.5 6 3 6C1.5 6 0 4.5 0 3C0 1.5 1.5 0 3 0ZM3 1C4.1 1 5 1.9 5 3C5 4.1 4.1 5 3 5C1.9 5 1 4.1 1 3C1 1.9 1.9 1 3 1ZM3 2C3.6 2 4 2.4 4 3C4 3.6 3.6 4 3 4C2.4 4 2 3.6 2 3C2 2.4 2.4 2 3 2Z');
+    box-shadow: 
+      0 0 10px rgba(78, 205, 196, 0.7),
+      0 0 20px rgba(78, 205, 196, 0.5),
+      0 0 30px rgba(78, 205, 196, 0.3),
+      inset 0 0 8px rgba(255, 255, 255, 0.6);
+    animation: dropFall 2s linear infinite;
+    z-index: -1;
+    filter: blur(0.3px);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 
+      0 0 5px rgba(255, 255, 255, 0.8),
+      0 0 10px rgba(255, 255, 255, 0.4);
+    animation: dropFall 2s linear infinite;
+    z-index: 1;
+  }
+
+  @keyframes neonFlow {
+    0%, 100% {
+      text-shadow: 0 0 10px rgba(78, 205, 196, 0.8),
+                   0 0 20px rgba(78, 205, 196, 0.6),
+                   0 0 30px rgba(78, 205, 196, 0.4);
+    }
+    50% {
+      text-shadow: 0 0 15px rgba(78, 205, 196, 0.9),
+                   0 0 25px rgba(78, 205, 196, 0.7),
+                   0 0 35px rgba(78, 205, 196, 0.5);
+    }
+  }
+
+  @keyframes dropFall {
+    0% {
+      transform: translateX(-50%) translateY(0) scale(1);
+      opacity: 0;
+      width: 6px;
+      height: 10px;
+    }
+    5% {
+      transform: translateX(-50%) translateY(5vh) scale(1.05);
+      opacity: 1;
+      width: 6.5px;
+      height: 10.5px;
+    }
+    100% {
+      transform: translateX(-50%) translateY(100vh) scale(1.35);
+      opacity: 0;
+      width: 9.5px;
+      height: 13.5px;
+    }
+  }
+`;
+
 const NavLinks = styled.div`
   display: flex;
   gap: 30px;
@@ -447,7 +533,9 @@ const Navbar = () => {
   return (
     <>
       <Nav>
-        <Logo to="/">BEE</Logo>
+        <Logo to="/">
+          <ExclamationMark>!</ExclamationMark>BEE
+        </Logo>
         <NavLinks>
           <NavLink to="/" $isExploding={explodingLink === '/'} onClick={() => handleClick('/')}>
             {t('nav.home')}
