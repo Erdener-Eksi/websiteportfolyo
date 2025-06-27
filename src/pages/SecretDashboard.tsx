@@ -13,8 +13,8 @@ import 'react-circular-progressbar/dist/styles.css';
 const DashboardContainer = styled.div<{ $isDarkMode: boolean }>`
   min-height: 100vh;
   background: ${props => props.$isDarkMode 
-    ? 'linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%)'
-    : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)'
+    ? `linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0e3a5f 75%, #1a1a2e 100%)`
+    : `linear-gradient(135deg, #ffffff 0%, #f8fafc 25%, #e2e8f0 50%, #cbd5e1 75%, #f1f5f9 100%)`
   };
   padding: 10px;
   position: relative;
@@ -33,12 +33,20 @@ const DashboardContainer = styled.div<{ $isDarkMode: boolean }>`
     right: 0;
     bottom: 0;
     background: ${props => props.$isDarkMode
-      ? `radial-gradient(circle at 20% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-         radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%)`
-      : `radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-         radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)`
+      ? `radial-gradient(circle at 20% 80%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+         radial-gradient(circle at 80% 20%, rgba(156, 39, 176, 0.1) 0%, transparent 50%),
+         radial-gradient(circle at 50% 50%, rgba(255, 152, 0, 0.05) 0%, transparent 70%)`
+      : `radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+         radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+         radial-gradient(circle at 50% 50%, rgba(245, 101, 101, 0.05) 0%, transparent 70%)`
     };
     pointer-events: none;
+    animation: backgroundPulse 10s infinite alternate;
+  }
+
+  @keyframes backgroundPulse {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
   }
 `;
 
@@ -46,39 +54,106 @@ const Header = styled.div<{ $isDarkMode: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 15px;
+  margin-bottom: 25px;
+  padding: 20px 25px;
   background: ${props => props.$isDarkMode 
-    ? 'rgba(0, 0, 0, 0.8)' 
-    : 'rgba(255, 255, 255, 0.9)'
+    ? 'linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(26, 26, 46, 0.9))' 
+    : 'linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9))'
   };
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(25px);
   border: 1px solid ${props => props.$isDarkMode 
-    ? 'rgba(78, 205, 196, 0.3)' 
-    : 'rgba(59, 130, 246, 0.3)'
+    ? 'rgba(78, 205, 196, 0.4)' 
+    : 'rgba(59, 130, 246, 0.4)'
   };
-  border-radius: 15px;
+  border-radius: 20px;
   box-shadow: ${props => props.$isDarkMode 
-    ? '0 0 30px rgba(78, 205, 196, 0.2)' 
-    : '0 0 30px rgba(59, 130, 246, 0.2)'
+    ? `0 8px 32px rgba(0, 0, 0, 0.4),
+       0 0 40px rgba(78, 205, 196, 0.2),
+       inset 0 1px 0 rgba(255, 255, 255, 0.1)` 
+    : `0 8px 32px rgba(0, 0, 0, 0.1),
+       0 0 40px rgba(59, 130, 246, 0.2),
+       inset 0 1px 0 rgba(255, 255, 255, 0.8)`
   };
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: ${props => props.$isDarkMode
+      ? 'linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent)'
+      : 'linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent)'
+    };
+    animation: shine 3s infinite;
+  }
+
+  @keyframes shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
 
   @media (min-width: 768px) {
-    margin-bottom: 30px;
-    padding: 20px;
+    margin-bottom: 35px;
+    padding: 25px 30px;
   }
 `;
 
-const Title = styled.h1`
-  color: #4ECDC4;
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+const Title = styled.h1<{ $isDarkMode: boolean }>`
+  background: ${props => props.$isDarkMode
+    ? 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 50%, #9C27B0 100%)'
+    : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #7c3aed 100%)'
+  };
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-shadow: ${props => props.$isDarkMode 
+    ? '0 0 30px rgba(78, 205, 196, 0.6)' 
+    : '0 0 30px rgba(59, 130, 246, 0.4)'
+  };
+  position: relative;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+
+  @keyframes titleGlow {
+    0% { 
+      filter: brightness(1);
+      transform: scale(1);
+    }
+    100% { 
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    }
+  }
 
   @media (min-width: 768px) {
     font-size: 2.5rem;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: ${props => props.$isDarkMode
+      ? 'linear-gradient(90deg, #4ECDC4, #44A08D, #9C27B0)'
+      : 'linear-gradient(90deg, #3b82f6, #1d4ed8, #7c3aed)'
+    };
+    border-radius: 2px;
+    animation: underlineGlow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes underlineGlow {
+    0% { opacity: 0.6; transform: scaleX(0.8); }
+    100% { opacity: 1; transform: scaleX(1); }
   }
 `;
 
@@ -154,48 +229,536 @@ const ThemeButton = styled(motion.button)<{ $isDarkMode: boolean }>`
   }
 `;
 
-const AccordionContainer = styled.div`
+const TileGridContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+`;
+
+const DashboardWidget = styled(motion.div)<{ $isDarkMode?: boolean }>`
+  background: ${props => props.$isDarkMode 
+    ? 'rgba(26, 26, 46, 0.6)' 
+    : 'rgba(255, 255, 255, 0.8)'
+  };
+  border: 1px solid ${props => props.$isDarkMode 
+    ? 'rgba(78, 205, 196, 0.2)' 
+    : 'rgba(59, 130, 246, 0.2)'
+  };
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: ${props => props.$isDarkMode 
+    ? '0 4px 20px rgba(0, 0, 0, 0.3)' 
+    : '0 4px 20px rgba(0, 0, 0, 0.1)'
+  };
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: ${props => props.$isDarkMode 
+      ? '0 8px 30px rgba(78, 205, 196, 0.2)' 
+      : '0 8px 30px rgba(59, 130, 246, 0.2)'
+    };
+  }
+`;
+
+const WidgetTitle = styled.div<{ $isDarkMode?: boolean }>`
+  font-size: 1rem;
+  font-weight: 600;
+  color: ${props => props.$isDarkMode ? '#fff' : '#1f2937'};
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const WidgetValue = styled.div<{ $isDarkMode?: boolean; $color?: string }>`
+  font-size: 2rem;
+  font-weight: 800;
+  color: ${props => props.$color || (props.$isDarkMode ? '#4ECDC4' : '#3b82f6')};
+  margin-bottom: 5px;
+  line-height: 1;
+`;
+
+const WidgetSubtext = styled.div<{ $isDarkMode?: boolean }>`
+  font-size: 0.85rem;
+  color: ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)'};
+`;
+
+const DashboardWidgetGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+`;
+
+const DataCard = styled(motion.div)<{ $isDarkMode?: boolean; $type?: string }>`
+  background: ${props => props.$isDarkMode 
+    ? 'linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(15, 15, 35, 0.8))' 
+    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9))'
+  };
+  border: 1px solid ${props => {
+    if (props.$type === 'income') return props.$isDarkMode ? 'rgba(76, 175, 80, 0.3)' : 'rgba(76, 175, 80, 0.2)';
+    if (props.$type === 'expense') return props.$isDarkMode ? 'rgba(244, 67, 54, 0.3)' : 'rgba(244, 67, 54, 0.2)';
+    if (props.$type === 'debt') return props.$isDarkMode ? 'rgba(255, 152, 0, 0.3)' : 'rgba(255, 152, 0, 0.2)';
+    return props.$isDarkMode ? 'rgba(78, 205, 196, 0.2)' : 'rgba(59, 130, 246, 0.2)';
+  }};
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(15px);
+  box-shadow: ${props => props.$isDarkMode 
+    ? '0 8px 32px rgba(0, 0, 0, 0.4)' 
+    : '0 8px 32px rgba(0, 0, 0, 0.1)'
+  };
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: ${props => {
+      if (props.$type === 'income') return '0 12px 40px rgba(76, 175, 80, 0.2)';
+      if (props.$type === 'expense') return '0 12px 40px rgba(244, 67, 54, 0.2)';
+      if (props.$type === 'debt') return '0 12px 40px rgba(255, 152, 0, 0.2)';
+      return props.$isDarkMode ? '0 12px 40px rgba(78, 205, 196, 0.2)' : '0 12px 40px rgba(59, 130, 246, 0.2)';
+    }};
+  }
+`;
+
+const DataCardHeader = styled.div<{ $isDarkMode?: boolean; $type?: string }>`
+  padding: 20px 25px;
+  background: ${props => {
+    if (props.$type === 'income') return props.$isDarkMode 
+      ? 'linear-gradient(90deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05))' 
+      : 'linear-gradient(90deg, rgba(76, 175, 80, 0.05), rgba(76, 175, 80, 0.02))';
+    if (props.$type === 'expense') return props.$isDarkMode 
+      ? 'linear-gradient(90deg, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.05))' 
+      : 'linear-gradient(90deg, rgba(244, 67, 54, 0.05), rgba(244, 67, 54, 0.02))';
+    if (props.$type === 'debt') return props.$isDarkMode 
+      ? 'linear-gradient(90deg, rgba(255, 152, 0, 0.1), rgba(255, 152, 0, 0.05))' 
+      : 'linear-gradient(90deg, rgba(255, 152, 0, 0.05), rgba(255, 152, 0, 0.02))';
+    return props.$isDarkMode 
+      ? 'linear-gradient(90deg, rgba(78, 205, 196, 0.1), rgba(78, 205, 196, 0.05))' 
+      : 'linear-gradient(90deg, rgba(59, 130, 246, 0.05), rgba(59, 130, 246, 0.02))';
+  }};
+  border-bottom: 1px solid ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const DataCardTitle = styled.h3<{ $isDarkMode?: boolean }>`
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: ${props => props.$isDarkMode ? '#fff' : '#1f2937'};
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const DataCardValue = styled.div<{ $type?: string }>`
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: ${props => {
+    if (props.$type === 'income') return '#4CAF50';
+    if (props.$type === 'expense') return '#F44336';
+    if (props.$type === 'debt') return '#FF9800';
+    return '#4ECDC4';
+  }};
+`;
+
+const DataCardContent = styled.div`
+  padding: 25px;
+`;
+
+const ActionButtons = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+`;
+
+const ActionButton = styled(motion.button)<{ $variant?: 'primary' | 'secondary'; $isDarkMode?: boolean }>`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: ${props => {
+    if (props.$variant === 'primary') {
+      return props.$isDarkMode 
+        ? 'linear-gradient(45deg, #4ECDC4, #44A08D)' 
+        : 'linear-gradient(45deg, #3b82f6, #1d4ed8)';
+    }
+    return props.$isDarkMode 
+      ? 'rgba(255, 255, 255, 0.1)' 
+      : 'rgba(0, 0, 0, 0.05)';
+  }};
+  color: ${props => {
+    if (props.$variant === 'primary') return '#000';
+    return props.$isDarkMode ? '#fff' : '#374151';
+  }};
+  border: 1px solid ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const QuickForm = styled(motion.div)<{ $isDarkMode?: boolean }>`
+  background: ${props => props.$isDarkMode ? 'rgba(20, 20, 40, 0.8)' : 'rgba(248, 250, 252, 0.9)'};
+  border: 2px solid ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'};
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+`;
+
+const FormGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+
+const ModernInput = styled.input<{ $isDarkMode?: boolean }>`
+  padding: 12px 16px;
+  border: 2px solid ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.2)'};
+  border-radius: 8px;
+  background: ${props => props.$isDarkMode ? 'rgba(30, 30, 60, 0.8)' : 'rgba(255, 255, 255, 0.95)'};
+  color: ${props => props.$isDarkMode ? '#fff' : '#1f2937'};
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #4ECDC4;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+    background: ${props => props.$isDarkMode ? 'rgba(30, 30, 60, 0.9)' : 'rgba(255, 255, 255, 1)'};
+  }
+
+  &::placeholder {
+    color: ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)'};
+  }
+`;
+
+const ModernSelect = styled.select<{ $isDarkMode?: boolean }>`
+  padding: 12px 16px;
+  border: 2px solid ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.2)'};
+  border-radius: 8px;
+  background: ${props => props.$isDarkMode ? 'rgba(30, 30, 60, 0.8)' : 'rgba(255, 255, 255, 0.95)'};
+  color: ${props => props.$isDarkMode ? '#fff' : '#1f2937'};
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #4ECDC4;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+    background: ${props => props.$isDarkMode ? 'rgba(30, 30, 60, 0.9)' : 'rgba(255, 255, 255, 1)'};
+  }
+
+  option {
+    background: ${props => props.$isDarkMode ? '#1e1e3c' : '#fff'};
+    color: ${props => props.$isDarkMode ? '#fff' : '#1f2937'};
+  }
+`;
+
+const ItemGrid = styled.div`
+  display: grid;
+  gap: 12px;
+`;
+
+const DataItem = styled(motion.div)<{ $isDarkMode?: boolean; $type?: string }>`
+  background: ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.6)'};
+  border: 1px solid ${props => {
+    if (props.$type === 'income') return props.$isDarkMode ? 'rgba(76, 175, 80, 0.2)' : 'rgba(76, 175, 80, 0.1)';
+    if (props.$type === 'expense') return props.$isDarkMode ? 'rgba(244, 67, 54, 0.2)' : 'rgba(244, 67, 54, 0.1)';
+    if (props.$type === 'debt') return props.$isDarkMode ? 'rgba(255, 152, 0, 0.2)' : 'rgba(255, 152, 0, 0.1)';
+    return props.$isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+  }};
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(4px);
+    border-color: ${props => {
+      if (props.$type === 'income') return '#4CAF50';
+      if (props.$type === 'expense') return '#F44336';
+      if (props.$type === 'debt') return '#FF9800';
+      return '#4ECDC4';
+    }};
+  }
+`;
+
+const ItemInfo = styled.div`
+  flex: 1;
+`;
+
+const ItemName = styled.h4<{ $isDarkMode?: boolean }>`
+  font-size: 1rem;
+  font-weight: 600;
+  color: ${props => props.$isDarkMode ? '#fff' : '#1f2937'};
+  margin: 0 0 4px 0;
+`;
+
+const ItemMeta = styled.p<{ $isDarkMode?: boolean }>`
+  font-size: 0.85rem;
+  color: ${props => props.$isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)'};
+  margin: 0;
+`;
+
+const ItemActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const ModernItemAmount = styled.span<{ $type?: string }>`
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: ${props => {
+    if (props.$type === 'income') return '#4CAF50';
+    if (props.$type === 'expense') return '#F44336';
+    if (props.$type === 'debt') return '#FF9800';
+    return '#4ECDC4';
+  }};
+`;
+
+const DeleteBtn = styled(motion.button)<{ $isDarkMode?: boolean }>`
+  padding: 6px 12px;
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  border-radius: 6px;
+  color: #F44336;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(244, 67, 54, 0.2);
+    transform: scale(1.05);
+  }
+`;
+
+const FinancialTile = styled(motion.div)<{ 
+  $isDarkMode?: boolean; 
+  $variant?: 'overview' | 'income' | 'expense' | 'debt' | 'fixed' | 'recurring';
+  $isCompact?: boolean;
+}>`
+  background: ${props => props.$isDarkMode 
+    ? 'linear-gradient(145deg, rgba(26, 26, 46, 0.95), rgba(15, 15, 35, 0.9))' 
+    : 'linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9))'
+  };
+  backdrop-filter: blur(20px);
+  border: 2px solid ${props => {
+    const variants = {
+      overview: props.$isDarkMode ? '#4ECDC4' : '#3b82f6',
+      income: '#4CAF50',
+      expense: '#F44336', 
+      debt: '#FF9800',
+      fixed: '#9C27B0',
+      recurring: '#00BCD4'
+    };
+    const color = variants[props.$variant || 'overview'];
+    return `${color}40`; // 25% opacity
+  }};
+  border-radius: 20px;
+  padding: ${props => props.$isCompact ? '20px' : '0'};
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: ${props => props.$isCompact ? 'auto' : '200px'};
+  height: auto;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
+
+  &:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: ${props => {
+      const variants = {
+        overview: props.$isDarkMode ? '#4ECDC4' : '#3b82f6',
+        income: '#4CAF50',
+        expense: '#F44336', 
+        debt: '#FF9800',
+        fixed: '#9C27B0',
+        recurring: '#00BCD4'
+      };
+      const color = variants[props.$variant || 'overview'];
+      return `${color}80`; // 50% opacity
+    }};
+    box-shadow: ${props => {
+      const variants = {
+        overview: props.$isDarkMode ? 'rgba(78, 205, 196, 0.3)' : 'rgba(59, 130, 246, 0.3)',
+        income: 'rgba(76, 175, 80, 0.3)',
+        expense: 'rgba(244, 67, 54, 0.3)', 
+        debt: 'rgba(255, 152, 0, 0.3)',
+        fixed: 'rgba(156, 39, 176, 0.3)',
+        recurring: 'rgba(0, 188, 212, 0.3)'
+      };
+      const color = variants[props.$variant || 'overview'];
+      return `0 20px 40px ${color}`;
+    }};
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: ${props => {
+      const variants = {
+        overview: props.$isDarkMode ? 'linear-gradient(90deg, #4ECDC4, #44A08D)' : 'linear-gradient(90deg, #3b82f6, #1d4ed8)',
+        income: 'linear-gradient(90deg, #4CAF50, #81C784)',
+        expense: 'linear-gradient(90deg, #F44336, #E57373)', 
+        debt: 'linear-gradient(90deg, #FF9800, #FFB74D)',
+        fixed: 'linear-gradient(90deg, #9C27B0, #BA68C8)',
+        recurring: 'linear-gradient(90deg, #00BCD4, #4DD0E1)'
+      };
+      return variants[props.$variant || 'overview'];
+    }};
+    border-radius: 20px 20px 0 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: ${props => {
+      const variants = {
+        overview: 'radial-gradient(circle, rgba(78, 205, 196, 0.1) 0%, transparent 70%)',
+        income: 'radial-gradient(circle, rgba(76, 175, 80, 0.1) 0%, transparent 70%)',
+        expense: 'radial-gradient(circle, rgba(244, 67, 54, 0.1) 0%, transparent 70%)', 
+        debt: 'radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, transparent 70%)',
+        fixed: 'radial-gradient(circle, rgba(156, 39, 176, 0.1) 0%, transparent 70%)',
+        recurring: 'radial-gradient(circle, rgba(0, 188, 212, 0.1) 0%, transparent 70%)'
+      };
+      return variants[props.$variant || 'overview'];
+    }};
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
 `;
 
-const AccordionCard = styled(motion.div)`
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(78, 205, 196, 0.3);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 0 30px rgba(78, 205, 196, 0.2);
-  transform: translateZ(0);
-  backface-visibility: hidden;
-`;
-
-const AccordionHeader = styled.div<{ $isOpen: boolean }>`
-  padding: 20px;
+// Backward compatibility aliases
+const AccordionCard = FinancialTile;
+const AccordionHeader = styled.div<{ $isOpen: boolean; $isDarkMode?: boolean }>`
+  padding: 24px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: ${props => props.$isOpen ? 'rgba(78, 205, 196, 0.1)' : 'transparent'};
-  border-bottom: ${props => props.$isOpen ? '1px solid rgba(78, 205, 196, 0.3)' : 'none'};
-  transition: background-color 0.2s ease-out, border-bottom 0.2s ease-out;
+  border-bottom: ${props => props.$isOpen 
+    ? `1px solid ${props.$isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}` 
+    : 'none'
+  };
+  transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(78, 205, 196, 0.05);
+    background: ${props => props.$isDarkMode 
+      ? 'rgba(255, 255, 255, 0.05)' 
+      : 'rgba(0, 0, 0, 0.02)'
+    };
   }
 `;
-
-const AccordionTitle = styled.h2`
-  color: #4ECDC4;
-  font-size: 1.2rem;
+const AccordionTitle = styled.h2<{ $isDarkMode?: boolean }>`
+  color: ${props => props.$isDarkMode ? '#4ECDC4' : '#3b82f6'};
+  font-size: 1.1rem;
   margin: 0;
   font-weight: 600;
+`;
+
+const CardHeader = styled.div<{ $isDarkMode?: boolean; $type?: string }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid ${props => props.$isDarkMode 
+    ? 'rgba(255, 255, 255, 0.1)' 
+    : 'rgba(0, 0, 0, 0.1)'
+  };
+`;
+
+const CardTitle = styled.h2<{ $isDarkMode?: boolean; $type?: string }>`
+  color: ${props => {
+    if (!props.$type) return props.$isDarkMode ? '#4ECDC4' : '#3b82f6';
+    const colors = {
+      overview: props.$isDarkMode ? '#4ECDC4' : '#3b82f6',
+      income: '#4CAF50',
+      expense: '#F44336', 
+      debt: '#FF9800',
+      fixed: '#9C27B0',
+      recurring: '#00BCD4'
+    };
+    return colors[props.$type as keyof typeof colors] || (props.$isDarkMode ? '#4ECDC4' : '#3b82f6');
+  }};
+  font-size: 1.3rem;
+  margin: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 
   @media (min-width: 768px) {
     font-size: 1.5rem;
   }
+`;
+
+const CardContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 24px 24px;
+  overflow: visible;
 `;
 
 const AccordionValue = styled.div<{ $type: 'income' | 'expense' | 'debt' | 'balance' }>`
@@ -216,17 +779,26 @@ const AccordionValue = styled.div<{ $type: 'income' | 'expense' | 'debt' | 'bala
   }
 `;
 
-const AccordionIcon = styled.div<{ $isOpen: boolean }>`
-  color: #4ECDC4;
-  font-size: 1.5rem;
+const AccordionIcon = styled.div<{ $isOpen: boolean; $isDarkMode?: boolean }>`
+  color: ${props => props.$isDarkMode ? '#4ECDC4' : '#3b82f6'};
+  font-size: 1.2rem;
   transform: ${props => props.$isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
-  transition: transform 0.2s ease-out;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+    transform: ${props => props.$isOpen ? 'rotate(180deg) scale(1.1)' : 'rotate(0deg) scale(1.1)'};
+  }
 `;
 
 const AccordionContent = styled(motion.div)`
-  padding: 0 20px 20px 20px;
+  padding: 24px;
   overflow: hidden;
   will-change: transform, opacity;
+  background: rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
 `;
 
 const StatsGrid = styled.div`
@@ -326,50 +898,148 @@ const QuickActionsContainer = styled.div`
 const QuickActionButton = styled(motion.button)<{ $isDarkMode: boolean; $type: 'income' | 'expense' | 'debt' | 'fixed' }>`
   background: ${props => {
     const colors = {
-      income: 'linear-gradient(45deg, #4CAF50, #45a049)',
-      expense: 'linear-gradient(45deg, #F44336, #d32f2f)',
-      debt: 'linear-gradient(45deg, #9C27B0, #7b1fa2)',
-      fixed: 'linear-gradient(45deg, #FF9800, #f57c00)'
+      income: props.$isDarkMode 
+        ? 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 50%, #1B5E20 100%)'
+        : 'linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)',
+      expense: props.$isDarkMode 
+        ? 'linear-gradient(135deg, #F44336 0%, #C62828 50%, #B71C1C 100%)'
+        : 'linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%)',
+      debt: props.$isDarkMode 
+        ? 'linear-gradient(135deg, #9C27B0 0%, #6A1B9A 50%, #4A148C 100%)'
+        : 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%)',
+      fixed: props.$isDarkMode 
+        ? 'linear-gradient(135deg, #FF9800 0%, #EF6C00 50%, #E65100 100%)'
+        : 'linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%)'
     };
     return colors[props.$type];
   }};
   border: none;
-  padding: 15px;
-  border-radius: 15px;
+  padding: 20px;
+  border-radius: 20px;
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
+  gap: 12px;
+  font-size: 0.95rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: ${props => props.$isDarkMode 
+    ? `0 8px 32px rgba(0, 0, 0, 0.4),
+       0 0 0 1px rgba(255, 255, 255, 0.1),
+       inset 0 1px 0 rgba(255, 255, 255, 0.2)` 
+    : `0 8px 32px rgba(0, 0, 0, 0.15),
+       0 0 0 1px rgba(255, 255, 255, 0.2),
+       inset 0 1px 0 rgba(255, 255, 255, 0.4)`
+  };
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: ${props => props.$isDarkMode 
+      ? `0 16px 48px rgba(0, 0, 0, 0.5),
+         0 0 0 1px rgba(255, 255, 255, 0.15),
+         inset 0 1px 0 rgba(255, 255, 255, 0.3)` 
+      : `0 16px 48px rgba(0, 0, 0, 0.2),
+         0 0 0 1px rgba(255, 255, 255, 0.3),
+         inset 0 1px 0 rgba(255, 255, 255, 0.5)`
+    };
+
+    .icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+  }
+
+  &:hover::before {
+    left: 100%;
   }
 
   .icon {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    transition: transform 0.3s ease;
+  }
+
+  @media (min-width: 768px) {
+    padding: 25px;
+    font-size: 1.1rem;
+    border-radius: 25px;
+    
+    .icon {
+      font-size: 2.2rem;
+    }
   }
 `;
 
 const StatCard = styled.div<{ $type: 'income' | 'expense' | 'debt' | 'balance' }>`
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid ${props => {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(20px);
+  border: 2px solid ${props => {
     switch (props.$type) {
-      case 'income': return 'rgba(76, 175, 80, 0.3)';
-      case 'expense': return 'rgba(244, 67, 54, 0.3)';
-      case 'debt': return 'rgba(255, 152, 0, 0.3)';
-      case 'balance': return 'rgba(78, 205, 196, 0.3)';
-      default: return 'rgba(78, 205, 196, 0.3)';
+      case 'income': return 'rgba(76, 175, 80, 0.4)';
+      case 'expense': return 'rgba(244, 67, 54, 0.4)';
+      case 'debt': return 'rgba(255, 152, 0, 0.4)';
+      case 'balance': return 'rgba(78, 205, 196, 0.4)';
+      default: return 'rgba(78, 205, 196, 0.4)';
     }
   }};
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 20px;
+  padding: 20px;
   text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    border-color: ${props => {
+      switch (props.$type) {
+        case 'income': return 'rgba(76, 175, 80, 0.6)';
+        case 'expense': return 'rgba(244, 67, 54, 0.6)';
+        case 'debt': return 'rgba(255, 152, 0, 0.6)';
+        case 'balance': return 'rgba(78, 205, 196, 0.6)';
+        default: return 'rgba(78, 205, 196, 0.6)';
+      }
+    }};
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: ${props => {
+      switch (props.$type) {
+        case 'income': return 'linear-gradient(90deg, #4CAF50, #81C784)';
+        case 'expense': return 'linear-gradient(90deg, #F44336, #E57373)';
+        case 'debt': return 'linear-gradient(90deg, #FF9800, #FFB74D)';
+        case 'balance': return 'linear-gradient(90deg, #4ECDC4, #80CBC4)';
+        default: return 'linear-gradient(90deg, #4ECDC4, #80CBC4)';
+      }
+    }};
+    border-radius: 20px 20px 0 0;
+  }
 `;
 
 const StatValue = styled.div<{ $type: 'income' | 'expense' | 'debt' | 'balance' }>`
@@ -1232,7 +1902,7 @@ const SecretDashboard: React.FC = () => {
   return (
     <DashboardContainer $isDarkMode={isDarkMode}>
       <Header $isDarkMode={isDarkMode}>
-        <Title>💰 Cüzdan Takip</Title>
+        <Title $isDarkMode={isDarkMode}>💰 Cüzdan Takip</Title>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <ThemeButton
             $isDarkMode={isDarkMode}
@@ -1259,78 +1929,151 @@ const SecretDashboard: React.FC = () => {
         </div>
       </Header>
 
-      {/* Charts Section */}
-      <ChartsContainer>
-        <ChartCard $isDarkMode={isDarkMode}>
-          <ChartTitle $isDarkMode={isDarkMode}>📊 Aylık Gelir/Gider Trend</ChartTitle>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? "#333" : "#ccc"} />
-              <XAxis dataKey="month" stroke={isDarkMode ? "#fff" : "#000"} />
-              <YAxis stroke={isDarkMode ? "#fff" : "#000"} />
-              <Tooltip 
-                contentStyle={{
-                  backgroundColor: isDarkMode ? "#1a1a2e" : "#fff",
-                  border: `1px solid ${isDarkMode ? "#4ECDC4" : "#3b82f6"}`,
-                  borderRadius: "10px"
-                }}
-              />
-              <Bar dataKey="gelir" fill="#4CAF50" />
-              <Bar dataKey="gider" fill="#F44336" />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-
-        <ChartCard $isDarkMode={isDarkMode}>
-          <ChartTitle $isDarkMode={isDarkMode}>💰 Bütçe Dağılımı</ChartTitle>
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                innerRadius={40}
-                outerRadius={80}
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip 
-                formatter={(value: number) => [`${value.toLocaleString('tr-TR')} ₺`, '']}
-                contentStyle={{
-                  backgroundColor: isDarkMode ? "#1a1a2e" : "#fff",
-                  border: `1px solid ${isDarkMode ? "#4ECDC4" : "#3b82f6"}`,
-                  borderRadius: "10px"
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </ChartCard>
-
-        <ChartCard $isDarkMode={isDarkMode}>
-          <ChartTitle $isDarkMode={isDarkMode}>📈 Tasarruf Oranı</ChartTitle>
-          <ProgressContainer>
-            <CircularProgressbar
-              value={Math.max(0, Math.min(100, savingsRate))}
-              text={`${savingsRate.toFixed(1)}%`}
-              styles={buildStyles({
-                textColor: isDarkMode ? '#4ECDC4' : '#3b82f6',
-                pathColor: savingsRate > 20 ? '#4CAF50' : savingsRate > 10 ? '#FF9800' : '#F44336',
-                trailColor: isDarkMode ? '#333' : '#f3f4f6'
-              })}
-            />
-          </ProgressContainer>
-          <div style={{ textAlign: 'center', marginTop: '10px', color: isDarkMode ? '#fff' : '#000' }}>
-            <small>Hedef: %20+</small>
-          </div>
-        </ChartCard>
-      </ChartsContainer>
-
       {/* Quick Actions */}
-      <QuickActionsContainer>
+      {/* Dashboard Widgets - Üst Bölüm */}
+      <DashboardWidgetGrid>
+        {/* Toplam Bakiye Widget */}
+        <DashboardWidget 
+          $isDarkMode={isDarkMode}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <WidgetTitle $isDarkMode={isDarkMode}>💰 Toplam Bakiye</WidgetTitle>
+          <WidgetValue $isDarkMode={isDarkMode} $color="#4ECDC4">
+            ₺{totalBalance.toLocaleString()}
+          </WidgetValue>
+          <WidgetSubtext $isDarkMode={isDarkMode}>
+            Net Değer: ₺{netWorth.toLocaleString()}
+          </WidgetSubtext>
+        </DashboardWidget>
+
+        {/* Aylık Trend Widget */}
+        <DashboardWidget 
+          $isDarkMode={isDarkMode}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <WidgetTitle $isDarkMode={isDarkMode}>📈 Aylık Trend</WidgetTitle>
+          <div style={{ height: '120px', marginTop: '10px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={[
+                { name: 'Oca', gelir: 8000, gider: 3500 },
+                { name: 'Şub', gelir: 7500, gider: 4200 },
+                { name: 'Mar', gelir: 9200, gider: 3800 },
+                { name: 'Nis', gelir: 8800, gider: 4100 },
+                { name: 'May', gelir: 9500, gider: 3900 },
+                { name: 'Haz', gelir: totalIncome, gider: totalExpenses },
+              ]}>
+                <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#333' : '#e0e0e0'} />
+                <XAxis dataKey="name" stroke={isDarkMode ? '#fff' : '#333'} fontSize={10} />
+                <YAxis stroke={isDarkMode ? '#fff' : '#333'} fontSize={10} />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: isDarkMode ? '#1a1a2e' : '#fff',
+                    border: `1px solid ${isDarkMode ? '#4ECDC4' : '#3b82f6'}`,
+                    borderRadius: '8px'
+                  }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="gelir" 
+                  stroke="#4CAF50" 
+                  strokeWidth={2}
+                  dot={{ fill: '#4CAF50', strokeWidth: 1, r: 2 }}
+                  name="Gelir"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="gider" 
+                  stroke="#F44336" 
+                  strokeWidth={2}
+                  dot={{ fill: '#F44336', strokeWidth: 1, r: 2 }}
+                  name="Gider"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </DashboardWidget>
+
+        {/* Bütçe Dağılımı Widget */}
+        <DashboardWidget 
+          $isDarkMode={isDarkMode}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <WidgetTitle $isDarkMode={isDarkMode}>💰 Bütçe Dağılımı</WidgetTitle>
+          <div style={{ height: '120px', marginTop: '10px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={[
+                    { name: 'Gelir', value: totalIncome, fill: '#4CAF50' },
+                    { name: 'Gider', value: totalExpenses, fill: '#F44336' },
+                    { name: 'Borç', value: totalRemainingDebts, fill: '#FF9800' },
+                    { name: 'Tasarruf', value: Math.max(0, totalIncome - totalExpenses), fill: '#00BCD4' }
+                  ]}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={20}
+                  outerRadius={50}
+                  paddingAngle={2}
+                  dataKey="value"
+                >
+                  {[
+                    { name: 'Gelir', value: totalIncome, fill: '#4CAF50' },
+                    { name: 'Gider', value: totalExpenses, fill: '#F44336' },
+                    { name: 'Borç', value: totalRemainingDebts, fill: '#FF9800' },
+                    { name: 'Tasarruf', value: Math.max(0, totalIncome - totalExpenses), fill: '#00BCD4' }
+                  ].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: isDarkMode ? '#1a1a2e' : '#fff',
+                    border: `1px solid ${isDarkMode ? '#4ECDC4' : '#3b82f6'}`,
+                    borderRadius: '8px'
+                  }}
+                  formatter={(value: any) => [`₺${value.toLocaleString()}`, '']}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </DashboardWidget>
+
+        {/* Tasarruf Oranı Widget */}
+        <DashboardWidget 
+          $isDarkMode={isDarkMode}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <WidgetTitle $isDarkMode={isDarkMode}>📈 Tasarruf Oranı</WidgetTitle>
+          <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <div style={{ width: '80px', height: '80px', margin: '0 auto' }}>
+              <CircularProgressbar
+                value={totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0}
+                text={`${totalIncome > 0 ? (((totalIncome - totalExpenses) / totalIncome) * 100).toFixed(1) : '0.0'}%`}
+                styles={buildStyles({
+                  textColor: '#4ECDC4',
+                  pathColor: '#4CAF50',
+                  trailColor: isDarkMode ? '#333' : '#e0e0e0',
+                  textSize: '12px'
+                })}
+              />
+            </div>
+            <WidgetSubtext $isDarkMode={isDarkMode} style={{ marginTop: '8px' }}>
+              Aylık: ₺{Math.max(0, totalIncome - totalExpenses).toLocaleString()}
+            </WidgetSubtext>
+          </div>
+        </DashboardWidget>
+      </DashboardWidgetGrid>
+
+      {/* Hızlı İşlem Butonları */}
+      <QuickActionsContainer style={{ marginBottom: '30px' }}>
         <QuickActionButton
           $isDarkMode={isDarkMode}
           $type="income"
@@ -1387,226 +2130,208 @@ const SecretDashboard: React.FC = () => {
         </QuickActionButton>
       </QuickActionsContainer>
 
-      <AccordionContainer>
-        {/* Genel Bakış */}
-        <AccordionCard>
-          <AccordionHeader 
-            $isOpen={openSection === 'overview'} 
-            onClick={() => toggleSection('overview')}
-          >
-            <div>
-              <AccordionTitle>📊 Genel Bakış</AccordionTitle>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <AccordionValue $type="balance">₺{totalBalance.toLocaleString()}</AccordionValue>
-              <AccordionIcon $isOpen={openSection === 'overview'}>▼</AccordionIcon>
-            </div>
-          </AccordionHeader>
-          <AnimatePresence>
-            {openSection === 'overview' && (
-              <AccordionContent
-                initial={{ scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
-                exit={{ scaleY: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                style={{ transformOrigin: "top" }}
-              >
-                <StatsGrid>
-                  <StatCard $type="income">
-                    <AnimatedCounter value={totalIncome} $type="income" />
-                    <StatLabel>Toplam Gelir</StatLabel>
-                  </StatCard>
-                  <StatCard $type="expense">
-                    <AnimatedCounter value={totalExpenses} $type="expense" />
-                    <StatLabel>Toplam Gider</StatLabel>
-                  </StatCard>
-                  <StatCard $type="debt">
-                    <AnimatedCounter value={totalRemainingDebts} $type="debt" />
-                    <StatLabel>Kalan Borç</StatLabel>
-                  </StatCard>
-                  <StatCard $type="balance">
-                    <AnimatedCounter value={netWorth} $type="balance" />
-                    <StatLabel>Net Değer</StatLabel>
-                  </StatCard>
-                  <StatCard $type="expense">
-                    <AnimatedCounter value={totalFixedExpenses} $type="expense" />
-                    <StatLabel>Sabit Gider</StatLabel>
-                  </StatCard>
-                  <StatCard $type="debt">
-                    <AnimatedCounter value={monthlyDebtPayments} $type="debt" />
-                    <StatLabel>Aylık Ödeme</StatLabel>
-                  </StatCard>
-                  <StatCard $type="income">
-                    <AnimatedCounter value={monthlyRecurringIncome} $type="income" />
-                    <StatLabel>Aylık Düzenli Gelir</StatLabel>
-                  </StatCard>
-                  <StatCard $type="income">
-                    <AnimatedCounter value={totalRecurringIncome} $type="income" />
-                    <StatLabel>Toplam Düzenli Gelir</StatLabel>
-                  </StatCard>
-                </StatsGrid>
-              </AccordionContent>
-            )}
-          </AnimatePresence>
-        </AccordionCard>
+      {/* Veri Giriş Kartları - Alt Bölüm */}
+      <TileGridContainer>
 
         {/* Gelirler */}
-        <AccordionCard>
-          <AccordionHeader 
-            $isOpen={openSection === 'income'} 
-            onClick={() => toggleSection('income')}
-          >
-            <div>
-              <AccordionTitle>💰 Gelirler</AccordionTitle>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <AccordionValue $type="income">₺{totalIncome.toLocaleString()}</AccordionValue>
-              <AccordionIcon $isOpen={openSection === 'income'}>▼</AccordionIcon>
-            </div>
-          </AccordionHeader>
-          <AnimatePresence>
-            {openSection === 'income' && (
-              <AccordionContent
-                initial={{ scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
-                exit={{ scaleY: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                style={{ transformOrigin: "top" }}
+        <DataCard 
+          $isDarkMode={isDarkMode} 
+          $type="income"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <DataCardHeader $isDarkMode={isDarkMode} $type="income">
+            <DataCardTitle $isDarkMode={isDarkMode}>💰 Gelirler</DataCardTitle>
+            <DataCardValue $type="income">₺{totalIncome.toLocaleString()}</DataCardValue>
+          </DataCardHeader>
+          
+          <DataCardContent>
+            <ActionButtons>
+              <ActionButton
+                $variant="primary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setShowIncomeForm(!showIncomeForm)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <ButtonContainer>
-                  {!showIncomeForm ? (
-                    <AddButton
-                      onClick={() => setShowIncomeForm(true)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      + Gelir Ekle
-                    </AddButton>
-                  ) : (
-                    <AddButton
-                      onClick={() => setShowIncomeForm(false)}
-                      $isCancel={true}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      İptal
-                    </AddButton>
-                  )}
-                </ButtonContainer>
+                {showIncomeForm ? 'İptal' : '+ Gelir Ekle'}
+              </ActionButton>
+              <ActionButton
+                $variant="secondary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setOpenSection(openSection === 'income' ? '' : 'income')}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {openSection === 'income' ? 'Gizle' : 'Listele'}
+              </ActionButton>
+            </ActionButtons>
 
-                {showIncomeForm && (
-                  <FormContainer>
-                    <Form onSubmit={handleIncomeSubmit}>
-                      <Input
+            <AnimatePresence>
+              {showIncomeForm && (
+                <QuickForm
+                  $isDarkMode={isDarkMode}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <form onSubmit={handleIncomeSubmit}>
+                    <FormGrid>
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="text"
                         placeholder="Başlık (Maaş, Bonus, vb.)"
                         value={incomeForm.title}
                         onChange={(e) => setIncomeForm({...incomeForm, title: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="number"
                         placeholder="Tutar (₺)"
                         value={incomeForm.amount}
                         onChange={(e) => setIncomeForm({...incomeForm, amount: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="date"
                         value={incomeForm.date}
                         onChange={(e) => setIncomeForm({...incomeForm, date: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="text"
                         placeholder="Açıklama (Opsiyonel)"
                         value={incomeForm.description}
                         onChange={(e) => setIncomeForm({...incomeForm, description: e.target.value})}
+                        style={{ gridColumn: '1 / -1' }}
                       />
-                      <SubmitButton type="submit">Gelir Ekle</SubmitButton>
-                    </Form>
-                  </FormContainer>
-                )}
+                    </FormGrid>
+                    <ActionButton
+                      $variant="primary"
+                      $isDarkMode={isDarkMode}
+                      type="submit"
+                      style={{ marginTop: '15px' }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Gelir Ekle
+                    </ActionButton>
+                  </form>
+                </QuickForm>
+              )}
+            </AnimatePresence>
 
-                <ItemList>
-                  {incomes.map(item => (
-                    <Item key={item.id} $type="income">
-                      <ItemTitle>{item.title}</ItemTitle>
-                      <ItemDetails>{item.date} • {item.description}</ItemDetails>
-                      <ItemAmount $type="income">
-                        <span>₺{item.amount.toLocaleString()}</span>
-                        <DeleteButton onClick={() => deleteIncome(item.id)}>Sil</DeleteButton>
-                      </ItemAmount>
-                    </Item>
-                  ))}
-                </ItemList>
-              </AccordionContent>
-            )}
-          </AnimatePresence>
-        </AccordionCard>
+            <AnimatePresence>
+              {openSection === 'income' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ItemGrid>
+                    {incomes.map((item, index) => (
+                      <DataItem 
+                        key={item.id} 
+                        $isDarkMode={isDarkMode} 
+                        $type="income"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                      >
+                        <ItemInfo>
+                          <ItemName $isDarkMode={isDarkMode}>{item.title}</ItemName>
+                          <ItemMeta $isDarkMode={isDarkMode}>{item.date} • {item.description}</ItemMeta>
+                        </ItemInfo>
+                        <ItemActions>
+                          <ModernItemAmount $type="income">₺{item.amount.toLocaleString()}</ModernItemAmount>
+                          <DeleteBtn 
+                            $isDarkMode={isDarkMode}
+                            onClick={() => deleteIncome(item.id)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            Sil
+                          </DeleteBtn>
+                        </ItemActions>
+                      </DataItem>
+                    ))}
+                  </ItemGrid>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </DataCardContent>
+        </DataCard>
 
         {/* Giderler */}
-        <AccordionCard>
-          <AccordionHeader 
-            $isOpen={openSection === 'expenses'} 
-            onClick={() => toggleSection('expenses')}
-          >
-            <div>
-              <AccordionTitle>💸 Giderler</AccordionTitle>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <AccordionValue $type="expense">₺{totalExpenses.toLocaleString()}</AccordionValue>
-              <AccordionIcon $isOpen={openSection === 'expenses'}>▼</AccordionIcon>
-            </div>
-          </AccordionHeader>
-          <AnimatePresence>
-            {openSection === 'expenses' && (
-              <AccordionContent
-                initial={{ scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
-                exit={{ scaleY: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                style={{ transformOrigin: "top" }}
+        <DataCard 
+          $isDarkMode={isDarkMode} 
+          $type="expense"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <DataCardHeader $isDarkMode={isDarkMode} $type="expense">
+            <DataCardTitle $isDarkMode={isDarkMode}>💸 Giderler</DataCardTitle>
+            <DataCardValue $type="expense">₺{totalExpenses.toLocaleString()}</DataCardValue>
+          </DataCardHeader>
+          
+          <DataCardContent>
+            <ActionButtons>
+              <ActionButton
+                $variant="primary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setShowExpenseForm(!showExpenseForm)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <ButtonContainer>
-                  {!showExpenseForm ? (
-                    <AddButton
-                      onClick={() => setShowExpenseForm(true)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      + Gider Ekle
-                    </AddButton>
-                  ) : (
-                    <AddButton
-                      onClick={() => setShowExpenseForm(false)}
-                      $isCancel={true}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      İptal
-                    </AddButton>
-                  )}
-                </ButtonContainer>
+                {showExpenseForm ? 'İptal' : '+ Gider Ekle'}
+              </ActionButton>
+              <ActionButton
+                $variant="secondary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setOpenSection(openSection === 'expenses' ? '' : 'expenses')}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {openSection === 'expenses' ? 'Gizle' : 'Listele'}
+              </ActionButton>
+            </ActionButtons>
 
-                {showExpenseForm && (
-                  <FormContainer>
-                    <Form onSubmit={handleExpenseSubmit}>
-                      <Input
+            <AnimatePresence>
+              {showExpenseForm && (
+                <QuickForm
+                  $isDarkMode={isDarkMode}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <form onSubmit={handleExpenseSubmit}>
+                    <FormGrid>
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="text"
                         placeholder="Başlık (Market, Benzin, vb.)"
                         value={expenseForm.title}
                         onChange={(e) => setExpenseForm({...expenseForm, title: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="number"
                         placeholder="Tutar (₺)"
                         value={expenseForm.amount}
                         onChange={(e) => setExpenseForm({...expenseForm, amount: e.target.value})}
                         required
                       />
-                      <Select
+                      <ModernSelect
+                        $isDarkMode={isDarkMode}
                         value={expenseForm.category}
                         onChange={(e) => setExpenseForm({...expenseForm, category: e.target.value})}
                         required
@@ -1618,262 +2343,310 @@ const SecretDashboard: React.FC = () => {
                         <option value="eglence">Eğlence</option>
                         <option value="saglik">Sağlık</option>
                         <option value="diger">Diğer</option>
-                      </Select>
-                      <Input
+                      </ModernSelect>
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="date"
                         value={expenseForm.date}
                         onChange={(e) => setExpenseForm({...expenseForm, date: e.target.value})}
                         required
                       />
-                      <SubmitButton type="submit">Gider Ekle</SubmitButton>
-                    </Form>
-                  </FormContainer>
-                )}
+                    </FormGrid>
+                    <ActionButton
+                      $variant="primary"
+                      $isDarkMode={isDarkMode}
+                      type="submit"
+                      style={{ marginTop: '15px' }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Gider Ekle
+                    </ActionButton>
+                  </form>
+                </QuickForm>
+              )}
+            </AnimatePresence>
 
-                <ItemList>
-                  {expenses.map(item => (
-                    <Item key={item.id} $type="expense">
-                      <ItemTitle>{item.title}</ItemTitle>
-                      <ItemDetails>{item.date} • {item.category}</ItemDetails>
-                      <ItemAmount $type="expense">
-                        <span>₺{item.amount.toLocaleString()}</span>
-                        <DeleteButton onClick={() => deleteExpense(item.id)}>Sil</DeleteButton>
-                      </ItemAmount>
-                    </Item>
-                  ))}
-                </ItemList>
-              </AccordionContent>
-            )}
-          </AnimatePresence>
-        </AccordionCard>
+            <AnimatePresence>
+              {openSection === 'expenses' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ItemGrid>
+                    {expenses.map((item, index) => (
+                      <DataItem 
+                        key={item.id} 
+                        $isDarkMode={isDarkMode} 
+                        $type="expense"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                      >
+                        <ItemInfo>
+                          <ItemName $isDarkMode={isDarkMode}>{item.title}</ItemName>
+                          <ItemMeta $isDarkMode={isDarkMode}>{item.date} • {item.category}</ItemMeta>
+                        </ItemInfo>
+                        <ItemActions>
+                          <ModernItemAmount $type="expense">₺{item.amount.toLocaleString()}</ModernItemAmount>
+                          <DeleteBtn 
+                            $isDarkMode={isDarkMode}
+                            onClick={() => deleteExpense(item.id)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            Sil
+                          </DeleteBtn>
+                        </ItemActions>
+                      </DataItem>
+                    ))}
+                  </ItemGrid>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </DataCardContent>
+        </DataCard>
 
         {/* Borçlar */}
-        <AccordionCard>
-          <AccordionHeader 
-            $isOpen={openSection === 'debts'} 
-            onClick={() => toggleSection('debts')}
-          >
-            <div>
-              <AccordionTitle>🏦 Borçlar</AccordionTitle>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <AccordionValue $type="debt">₺{totalRemainingDebts.toLocaleString()}</AccordionValue>
-              <AccordionIcon $isOpen={openSection === 'debts'}>▼</AccordionIcon>
-            </div>
-          </AccordionHeader>
-          <AnimatePresence>
-            {openSection === 'debts' && (
-              <AccordionContent
-                initial={{ scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
-                exit={{ scaleY: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                style={{ transformOrigin: "top" }}
+        <DataCard 
+          $isDarkMode={isDarkMode} 
+          $type="debt"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <DataCardHeader $isDarkMode={isDarkMode} $type="debt">
+            <DataCardTitle $isDarkMode={isDarkMode}>🏦 Borçlar</DataCardTitle>
+            <DataCardValue $type="debt">₺{totalRemainingDebts.toLocaleString()}</DataCardValue>
+          </DataCardHeader>
+          
+          <DataCardContent>
+            <ActionButtons>
+              <ActionButton
+                $variant="primary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setShowDebtForm(!showDebtForm)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <ButtonContainer>
-                  {!showDebtForm ? (
-                    <AddButton
-                      onClick={() => setShowDebtForm(true)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      + Borç Ekle
-                    </AddButton>
-                  ) : (
-                    <AddButton
-                      onClick={() => setShowDebtForm(false)}
-                      $isCancel={true}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      İptal
-                    </AddButton>
-                  )}
-                </ButtonContainer>
+                {showDebtForm ? 'İptal' : '+ Borç Ekle'}
+              </ActionButton>
+              <ActionButton
+                $variant="secondary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setOpenSection(openSection === 'debts' ? '' : 'debts')}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {openSection === 'debts' ? 'Gizle' : 'Listele'}
+              </ActionButton>
+            </ActionButtons>
 
-                {showDebtForm && (
-                  <FormContainer>
-                    <Form onSubmit={handleDebtSubmit}>
-                      <Input
+            <AnimatePresence>
+              {showDebtForm && (
+                <QuickForm
+                  $isDarkMode={isDarkMode}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <form onSubmit={handleDebtSubmit}>
+                    <FormGrid>
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="text"
                         placeholder="Borç Adı (Kredi, Kredi Kartı)"
                         value={debtForm.title}
                         onChange={(e) => setDebtForm({...debtForm, title: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="number"
                         placeholder="Toplam Borç (₺)"
                         value={debtForm.amount}
                         onChange={(e) => setDebtForm({...debtForm, amount: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="number"
                         placeholder="Aylık Ödeme (₺)"
                         value={debtForm.monthlyPayment}
                         onChange={(e) => setDebtForm({...debtForm, monthlyPayment: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="number"
                         placeholder="Vade (Ay)"
                         value={debtForm.totalMonths}
                         onChange={(e) => setDebtForm({...debtForm, totalMonths: e.target.value})}
                         required
                       />
-                      <div style={{ marginBottom: '12px' }}>
-                        <label style={{ 
-                          display: 'block', 
-                          color: '#4ECDC4', 
-                          fontSize: '0.9rem', 
-                          marginBottom: '5px',
-                          fontWeight: '500'
-                        }}>
-                          📅 Başlangıç Tarihi (Borcun alındığı tarih)
-                        </label>
-                        <Input
-                          type="date"
-                          value={debtForm.startDate}
-                          onChange={(e) => setDebtForm({...debtForm, startDate: e.target.value})}
-                          required
-                        />
-                      </div>
-                      <div style={{ marginBottom: '12px' }}>
-                        <label style={{ 
-                          display: 'block', 
-                          color: '#FF9800', 
-                          fontSize: '0.9rem', 
-                          marginBottom: '5px',
-                          fontWeight: '500'
-                        }}>
-                          ⏰ Vade Tarihi (Son ödeme tarihi)
-                        </label>
-                        <Input
-                          type="date"
-                          value={debtForm.dueDate}
-                          onChange={(e) => setDebtForm({...debtForm, dueDate: e.target.value})}
-                          required
-                        />
-                      </div>
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
+                        type="date"
+                        placeholder="Başlangıç Tarihi"
+                        value={debtForm.startDate}
+                        onChange={(e) => setDebtForm({...debtForm, startDate: e.target.value})}
+                        required
+                      />
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
+                        type="date"
+                        placeholder="Vade Tarihi"
+                        value={debtForm.dueDate}
+                        onChange={(e) => setDebtForm({...debtForm, dueDate: e.target.value})}
+                        required
+                      />
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="number"
-                        placeholder="Faiz Oranı (%) - Opsiyonel"
+                        placeholder="Faiz Oranı (%)"
                         value={debtForm.interestRate}
                         onChange={(e) => setDebtForm({...debtForm, interestRate: e.target.value})}
+                        style={{ gridColumn: '1 / -1' }}
                       />
-                      <SubmitButton type="submit">Borç Ekle</SubmitButton>
-                    </Form>
-                  </FormContainer>
-                )}
+                    </FormGrid>
+                    <ActionButton
+                      $variant="primary"
+                      $isDarkMode={isDarkMode}
+                      type="submit"
+                      style={{ marginTop: '15px' }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Borç Ekle
+                    </ActionButton>
+                  </form>
+                </QuickForm>
+              )}
+            </AnimatePresence>
 
-                <ItemList>
-                  {debts.map(item => (
-                    <Item key={item.id} $type="debt">
-                      <ItemTitle>{item.title}</ItemTitle>
-                      <ItemDetails>
-                        Başlangıç: {item.startDate} • Vade: {item.dueDate} • Kalan: {item.remainingMonths} ay
-                      </ItemDetails>
-                      <ItemAmount $type="debt">
-                        <span>₺{(item.amount - item.paidAmount).toLocaleString()}</span>
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <AnimatePresence>
+              {openSection === 'debts' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ItemGrid>
+                    {debts.map((item, index) => (
+                      <DataItem 
+                        key={item.id} 
+                        $isDarkMode={isDarkMode} 
+                        $type="debt"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                      >
+                        <ItemInfo>
+                          <ItemName $isDarkMode={isDarkMode}>{item.title}</ItemName>
+                          <ItemMeta $isDarkMode={isDarkMode}>
+                            Kalan: {item.remainingMonths} ay • Vade: {item.dueDate}
+                          </ItemMeta>
+                        </ItemInfo>
+                        <ItemActions>
+                          <ModernItemAmount $type="debt">₺{(item.amount - item.paidAmount).toLocaleString()}</ModernItemAmount>
                           {item.remainingMonths > 0 && item.monthlyPayment && (
-                            <motion.button
+                            <ActionButton
+                              $variant="primary"
+                              $isDarkMode={isDarkMode}
                               onClick={() => makeDebtPayment(item.id)}
-                              style={{
-                                background: '#4CAF50',
-                                border: 'none',
-                                color: '#fff',
-                                padding: '6px 10px',
-                                borderRadius: '6px',
-                                cursor: 'pointer',
-                                fontSize: '0.75rem',
-                                fontWeight: '500',
-                                minWidth: '80px',
-                                height: '28px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
+                              style={{ fontSize: '0.75rem', padding: '6px 10px' }}
                             >
-                              Ödeme (₺{item.monthlyPayment.toLocaleString()})
-                            </motion.button>
+                              Öde ₺{item.monthlyPayment.toLocaleString()}
+                            </ActionButton>
                           )}
-                          <DeleteButton onClick={() => deleteDebt(item.id)}>Sil</DeleteButton>
-                        </div>
-                      </ItemAmount>
-                    </Item>
-                  ))}
-                </ItemList>
-              </AccordionContent>
-            )}
-          </AnimatePresence>
-        </AccordionCard>
+                          <DeleteBtn 
+                            $isDarkMode={isDarkMode}
+                            onClick={() => deleteDebt(item.id)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            Sil
+                          </DeleteBtn>
+                        </ItemActions>
+                      </DataItem>
+                    ))}
+                  </ItemGrid>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </DataCardContent>
+        </DataCard>
 
         {/* Sabit Giderler */}
-        <AccordionCard>
-          <AccordionHeader 
-            $isOpen={openSection === 'fixed'} 
-            onClick={() => toggleSection('fixed')}
-          >
-            <div>
-              <AccordionTitle>📅 Sabit Giderler</AccordionTitle>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <AccordionValue $type="expense">₺{totalFixedExpenses.toLocaleString()}</AccordionValue>
-              <AccordionIcon $isOpen={openSection === 'fixed'}>▼</AccordionIcon>
-            </div>
-          </AccordionHeader>
-          <AnimatePresence>
-            {openSection === 'fixed' && (
-              <AccordionContent
-                initial={{ scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
-                exit={{ scaleY: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                style={{ transformOrigin: "top" }}
+        <DataCard 
+          $isDarkMode={isDarkMode} 
+          $type="expense"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <DataCardHeader $isDarkMode={isDarkMode} $type="expense">
+            <DataCardTitle $isDarkMode={isDarkMode}>📅 Sabit Giderler</DataCardTitle>
+            <DataCardValue $type="expense">₺{totalFixedExpenses.toLocaleString()}</DataCardValue>
+          </DataCardHeader>
+          
+          <DataCardContent>
+            <ActionButtons>
+              <ActionButton
+                $variant="primary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setShowFixedExpenseForm(!showFixedExpenseForm)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <ButtonContainer>
-                  {!showFixedExpenseForm ? (
-                    <AddButton
-                      onClick={() => setShowFixedExpenseForm(true)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      + Sabit Gider Ekle
-                    </AddButton>
-                  ) : (
-                    <AddButton
-                      onClick={() => setShowFixedExpenseForm(false)}
-                      $isCancel={true}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      İptal
-                    </AddButton>
-                  )}
-                </ButtonContainer>
+                {showFixedExpenseForm ? 'İptal' : '+ Sabit Gider Ekle'}
+              </ActionButton>
+              <ActionButton
+                $variant="secondary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setOpenSection(openSection === 'fixed' ? '' : 'fixed')}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {openSection === 'fixed' ? 'Gizle' : 'Listele'}
+              </ActionButton>
+            </ActionButtons>
 
-                {showFixedExpenseForm && (
-                  <FormContainer>
-                    <Form onSubmit={handleFixedExpenseSubmit}>
-                      <Input
+            <AnimatePresence>
+              {showFixedExpenseForm && (
+                <QuickForm
+                  $isDarkMode={isDarkMode}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <form onSubmit={handleFixedExpenseSubmit}>
+                    <FormGrid>
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="text"
                         placeholder="Gider Adı (Kira, Elektrik)"
                         value={fixedExpenseForm.title}
                         onChange={(e) => setFixedExpenseForm({...fixedExpenseForm, title: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="number"
                         placeholder="Aylık Tutar (₺)"
                         value={fixedExpenseForm.amount}
                         onChange={(e) => setFixedExpenseForm({...fixedExpenseForm, amount: e.target.value})}
                         required
                       />
-                      <Select
+                      <ModernSelect
+                        $isDarkMode={isDarkMode}
                         value={fixedExpenseForm.category}
                         onChange={(e) => setFixedExpenseForm({...fixedExpenseForm, category: e.target.value})}
                         required
@@ -1886,91 +2659,129 @@ const SecretDashboard: React.FC = () => {
                         <option value="telefon">Telefon</option>
                         <option value="sigorta">Sigorta</option>
                         <option value="diger">Diğer</option>
-                      </Select>
-                      <SubmitButton type="submit">Sabit Gider Ekle</SubmitButton>
-                    </Form>
-                  </FormContainer>
-                )}
+                      </ModernSelect>
+                    </FormGrid>
+                    <ActionButton
+                      $variant="primary"
+                      $isDarkMode={isDarkMode}
+                      type="submit"
+                      style={{ marginTop: '15px' }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Sabit Gider Ekle
+                    </ActionButton>
+                  </form>
+                </QuickForm>
+              )}
+            </AnimatePresence>
 
-                <ItemList>
-                  {fixedExpenses.map(item => (
-                    <Item key={item.id} $type="expense">
-                      <ItemTitle>{item.title}</ItemTitle>
-                      <ItemDetails>Aylık • {item.category}</ItemDetails>
-                      <ItemAmount $type="expense">
-                        <span>₺{item.amount.toLocaleString()}</span>
-                        <DeleteButton onClick={() => deleteFixedExpense(item.id)}>Sil</DeleteButton>
-                      </ItemAmount>
-                    </Item>
-                  ))}
-                </ItemList>
-              </AccordionContent>
-            )}
-          </AnimatePresence>
-        </AccordionCard>
+            <AnimatePresence>
+              {openSection === 'fixed' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ItemGrid>
+                    {fixedExpenses.map((item, index) => (
+                      <DataItem 
+                        key={item.id} 
+                        $isDarkMode={isDarkMode} 
+                        $type="expense"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                      >
+                        <ItemInfo>
+                          <ItemName $isDarkMode={isDarkMode}>{item.title}</ItemName>
+                          <ItemMeta $isDarkMode={isDarkMode}>Aylık • {item.category}</ItemMeta>
+                        </ItemInfo>
+                        <ItemActions>
+                          <ModernItemAmount $type="expense">₺{item.amount.toLocaleString()}</ModernItemAmount>
+                          <DeleteBtn 
+                            $isDarkMode={isDarkMode}
+                            onClick={() => deleteFixedExpense(item.id)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            Sil
+                          </DeleteBtn>
+                        </ItemActions>
+                      </DataItem>
+                    ))}
+                  </ItemGrid>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </DataCardContent>
+        </DataCard>
 
         {/* Düzenli Gelirler */}
-        <AccordionCard>
-          <AccordionHeader 
-            $isOpen={openSection === 'recurring'} 
-            onClick={() => toggleSection('recurring')}
-          >
-            <div>
-              <AccordionTitle>🔄 Düzenli Gelirler</AccordionTitle>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <AccordionValue $type="income">₺{monthlyRecurringIncome.toLocaleString()}/ay</AccordionValue>
-              <AccordionIcon $isOpen={openSection === 'recurring'}>▼</AccordionIcon>
-            </div>
-          </AccordionHeader>
-          <AnimatePresence>
-            {openSection === 'recurring' && (
-              <AccordionContent
-                initial={{ scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
-                exit={{ scaleY: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                style={{ transformOrigin: "top" }}
+        <DataCard 
+          $isDarkMode={isDarkMode} 
+          $type="income"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <DataCardHeader $isDarkMode={isDarkMode} $type="income">
+            <DataCardTitle $isDarkMode={isDarkMode}>🔄 Düzenli Gelirler</DataCardTitle>
+            <DataCardValue $type="income">₺{monthlyRecurringIncome.toLocaleString()}/ay</DataCardValue>
+          </DataCardHeader>
+          
+          <DataCardContent>
+            <ActionButtons>
+              <ActionButton
+                $variant="primary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setShowRecurringIncomeForm(!showRecurringIncomeForm)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <ButtonContainer>
-                  {!showRecurringIncomeForm ? (
-                    <AddButton
-                      onClick={() => setShowRecurringIncomeForm(true)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      + Düzenli Gelir Ekle
-                    </AddButton>
-                  ) : (
-                    <AddButton
-                      onClick={() => setShowRecurringIncomeForm(false)}
-                      $isCancel={true}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      İptal
-                    </AddButton>
-                  )}
-                </ButtonContainer>
+                {showRecurringIncomeForm ? 'İptal' : '+ Düzenli Gelir Ekle'}
+              </ActionButton>
+              <ActionButton
+                $variant="secondary"
+                $isDarkMode={isDarkMode}
+                onClick={() => setOpenSection(openSection === 'recurring' ? '' : 'recurring')}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {openSection === 'recurring' ? 'Gizle' : 'Listele'}
+              </ActionButton>
+            </ActionButtons>
 
-                {showRecurringIncomeForm && (
-                  <FormContainer>
-                    <Form onSubmit={handleRecurringIncomeSubmit}>
-                      <Input
+            <AnimatePresence>
+              {showRecurringIncomeForm && (
+                <QuickForm
+                  $isDarkMode={isDarkMode}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <form onSubmit={handleRecurringIncomeSubmit}>
+                    <FormGrid>
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="text"
                         placeholder="Gelir Adı (Maaş, Kira Geliri, vb.)"
                         value={recurringIncomeForm.title}
                         onChange={(e) => setRecurringIncomeForm({...recurringIncomeForm, title: e.target.value})}
                         required
                       />
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="number"
                         placeholder="Tutar (₺)"
                         value={recurringIncomeForm.amount}
                         onChange={(e) => setRecurringIncomeForm({...recurringIncomeForm, amount: e.target.value})}
                         required
                       />
-                      <Select
+                      <ModernSelect
+                        $isDarkMode={isDarkMode}
                         value={recurringIncomeForm.frequency}
                         onChange={(e) => setRecurringIncomeForm({...recurringIncomeForm, frequency: e.target.value})}
                         required
@@ -1979,141 +2790,167 @@ const SecretDashboard: React.FC = () => {
                         <option value="weekly">Haftalık</option>
                         <option value="biweekly">İki Haftada Bir</option>
                         <option value="yearly">Yıllık</option>
-                      </Select>
-                      <div style={{ marginBottom: '12px' }}>
+                      </ModernSelect>
+                      <div style={{ gridColumn: 'span 2' }}>
                         <label style={{ 
                           display: 'block', 
-                          color: '#4CAF50', 
+                          color: isDarkMode ? '#4CAF50' : '#2E7D32', 
                           fontSize: '0.9rem', 
                           marginBottom: '5px',
                           fontWeight: '500'
                         }}>
                           🚀 Başlangıç Tarihi (İlk ödeme tarihi)
                         </label>
-                        <Input
+                        <ModernInput
+                          $isDarkMode={isDarkMode}
                           type="date"
                           value={recurringIncomeForm.startDate}
                           onChange={(e) => setRecurringIncomeForm({...recurringIncomeForm, startDate: e.target.value})}
                           required
                         />
                       </div>
-                      <div style={{ marginBottom: '12px' }}>
+                      <div style={{ gridColumn: 'span 2' }}>
                         <label style={{ 
                           display: 'block', 
-                          color: '#FF5722', 
+                          color: isDarkMode ? '#FF5722' : '#D32F2F', 
                           fontSize: '0.9rem', 
                           marginBottom: '5px',
                           fontWeight: '500'
                         }}>
                           🏁 Bitiş Tarihi (Opsiyonel - boş bırakırsan süresiz)
                         </label>
-                        <Input
+                        <ModernInput
+                          $isDarkMode={isDarkMode}
                           type="date"
                           value={recurringIncomeForm.endDate}
                           onChange={(e) => setRecurringIncomeForm({...recurringIncomeForm, endDate: e.target.value})}
                         />
                       </div>
-                      <Input
+                      <ModernInput
+                        $isDarkMode={isDarkMode}
                         type="text"
                         placeholder="Açıklama (Opsiyonel)"
                         value={recurringIncomeForm.description}
                         onChange={(e) => setRecurringIncomeForm({...recurringIncomeForm, description: e.target.value})}
+                        style={{ gridColumn: 'span 2' }}
                       />
-                      <SubmitButton type="submit">Düzenli Gelir Ekle</SubmitButton>
-                    </Form>
-                  </FormContainer>
-                )}
+                    </FormGrid>
+                    <ActionButton
+                      $variant="primary"
+                      $isDarkMode={isDarkMode}
+                      type="submit"
+                      style={{ marginTop: '15px' }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Düzenli Gelir Ekle
+                    </ActionButton>
+                  </form>
+                </QuickForm>
+              )}
+            </AnimatePresence>
 
-                <ItemList>
-                  {recurringIncomes.map(item => (
-                    <Item key={item.id} $type="income">
-                      <ItemTitle>
-                        {item.title} 
-                        <span style={{ 
-                          fontSize: '0.75rem', 
-                          marginLeft: '8px',
-                          color: item.isActive ? '#4CAF50' : '#F44336',
-                          fontWeight: 'normal'
-                        }}>
-                          {item.isActive ? '● Aktif' : '● Pasif'}
-                        </span>
-                      </ItemTitle>
-                      <ItemDetails>
-                        {item.frequency === 'monthly' && 'Aylık'} 
-                        {item.frequency === 'weekly' && 'Haftalık'} 
-                        {item.frequency === 'biweekly' && 'İki Haftada Bir'} 
-                        {item.frequency === 'yearly' && 'Yıllık'} 
-                        • Sonraki: {item.nextPaymentDate} • Toplam: {item.receivedCount} ödeme
-                      </ItemDetails>
-                      <ItemAmount $type="income">
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                          <span>₺{item.amount.toLocaleString()} / {
-                            item.frequency === 'monthly' ? 'ay' :
-                            item.frequency === 'weekly' ? 'hafta' :
-                            item.frequency === 'biweekly' ? '2 hafta' : 'yıl'
-                          }</span>
-                          <small style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.7rem' }}>
-                            Toplam alınan: ₺{item.totalReceived.toLocaleString()}
-                          </small>
-                        </div>
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                          <motion.button
-                            onClick={() => toggleRecurringIncome(item.id)}
-                            style={{
-                              background: item.isActive ? '#FF9800' : '#4CAF50',
-                              border: 'none',
-                              color: '#fff',
-                              padding: '6px 10px',
-                              borderRadius: '6px',
-                              cursor: 'pointer',
-                              fontSize: '0.75rem',
-                              fontWeight: '500',
-                              minWidth: '60px',
-                              height: '28px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center'
-                            }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            {item.isActive ? 'Durdur' : 'Başlat'}
-                          </motion.button>
-                          {item.isActive && (
-                            <motion.button
-                              onClick={() => receiveRecurringPayment(item.id)}
+            <AnimatePresence>
+              {openSection === 'recurring' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ItemGrid>
+                    {recurringIncomes.map((item, index) => (
+                      <DataItem 
+                        key={item.id} 
+                        $isDarkMode={isDarkMode} 
+                        $type="income"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                      >
+                        <ItemInfo>
+                          <ItemName $isDarkMode={isDarkMode}>
+                            {item.title} 
+                            <span style={{ 
+                              fontSize: '0.75rem', 
+                              marginLeft: '8px',
+                              color: item.isActive ? '#4CAF50' : '#F44336',
+                              fontWeight: 'normal'
+                            }}>
+                              {item.isActive ? '● Aktif' : '● Pasif'}
+                            </span>
+                          </ItemName>
+                          <ItemMeta $isDarkMode={isDarkMode}>
+                            {item.frequency === 'monthly' && 'Aylık'} 
+                            {item.frequency === 'weekly' && 'Haftalık'} 
+                            {item.frequency === 'biweekly' && 'İki Haftada Bir'} 
+                            {item.frequency === 'yearly' && 'Yıllık'} 
+                            • Sonraki: {item.nextPaymentDate}
+                          </ItemMeta>
+                          <ItemMeta $isDarkMode={isDarkMode} style={{ fontSize: '0.7rem', opacity: 0.8 }}>
+                            Toplam alınan: ₺{item.totalReceived.toLocaleString()} • {item.receivedCount} ödeme
+                          </ItemMeta>
+                        </ItemInfo>
+                        <ItemActions style={{ flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }}>
+                          <ModernItemAmount $type="income">
+                            ₺{item.amount.toLocaleString()} / {
+                              item.frequency === 'monthly' ? 'ay' :
+                              item.frequency === 'weekly' ? 'hafta' :
+                              item.frequency === 'biweekly' ? '2 hafta' : 'yıl'
+                            }
+                          </ModernItemAmount>
+                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <ActionButton
+                              $variant={item.isActive ? "secondary" : "primary"}
+                              $isDarkMode={isDarkMode}
+                              onClick={() => toggleRecurringIncome(item.id)}
                               style={{
-                                background: '#4CAF50',
-                                border: 'none',
-                                color: '#fff',
-                                padding: '6px 10px',
-                                borderRadius: '6px',
-                                cursor: 'pointer',
                                 fontSize: '0.75rem',
-                                fontWeight: '500',
-                                minWidth: '70px',
-                                height: '28px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
+                                padding: '6px 10px',
+                                minWidth: '60px',
+                                height: '28px'
                               }}
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
-                              Al (₺{item.amount.toLocaleString()})
-                            </motion.button>
-                          )}
-                          <DeleteButton onClick={() => deleteRecurringIncome(item.id)}>Sil</DeleteButton>
-                        </div>
-                      </ItemAmount>
-                    </Item>
-                  ))}
-                </ItemList>
-              </AccordionContent>
-            )}
-          </AnimatePresence>
-        </AccordionCard>
-      </AccordionContainer>
+                              {item.isActive ? 'Durdur' : 'Başlat'}
+                            </ActionButton>
+                            {item.isActive && (
+                              <ActionButton
+                                $variant="primary"
+                                $isDarkMode={isDarkMode}
+                                onClick={() => receiveRecurringPayment(item.id)}
+                                style={{
+                                  fontSize: '0.75rem',
+                                  padding: '6px 10px',
+                                  minWidth: '70px',
+                                  height: '28px'
+                                }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                Al ₺{item.amount.toLocaleString()}
+                              </ActionButton>
+                            )}
+                            <DeleteBtn 
+                              $isDarkMode={isDarkMode}
+                              onClick={() => deleteRecurringIncome(item.id)}
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              Sil
+                            </DeleteBtn>
+                          </div>
+                        </ItemActions>
+                      </DataItem>
+                    ))}
+                  </ItemGrid>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </DataCardContent>
+        </DataCard>
+      </TileGridContainer>
     </DashboardContainer>
   );
 };
