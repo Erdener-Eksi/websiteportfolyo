@@ -122,7 +122,12 @@ const App: React.FC = () => {
       <CustomThemeProvider>
         <LanguageProvider>
           <AuthProvider>
-            <Router>
+            <Router
+              future={{
+                v7_startTransition: true,
+                v7_relativeSplatPath: true
+              }}
+            >
               <GlobalStyle />
               <AppContent />
             </Router>
