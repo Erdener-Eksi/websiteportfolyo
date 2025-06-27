@@ -2172,10 +2172,10 @@ const SecretDashboard: React.FC = () => {
               {showIncomeForm && (
                 <QuickForm
                   $isDarkMode={isDarkMode}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "500px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <form onSubmit={handleIncomeSubmit}>
                     <FormGrid>
@@ -2229,10 +2229,10 @@ const SecretDashboard: React.FC = () => {
             <AnimatePresence>
               {openSection === 'income' && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "1000px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <ItemGrid>
                     {incomes.map((item, index) => (
@@ -2307,10 +2307,10 @@ const SecretDashboard: React.FC = () => {
               {showExpenseForm && (
                 <QuickForm
                   $isDarkMode={isDarkMode}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "500px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <form onSubmit={handleExpenseSubmit}>
                     <FormGrid>
@@ -2370,10 +2370,10 @@ const SecretDashboard: React.FC = () => {
             <AnimatePresence>
               {openSection === 'expenses' && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "1000px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <ItemGrid>
                     {expenses.map((item, index) => (
@@ -2448,10 +2448,10 @@ const SecretDashboard: React.FC = () => {
               {showDebtForm && (
                 <QuickForm
                   $isDarkMode={isDarkMode}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "600px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <form onSubmit={handleDebtSubmit}>
                     <FormGrid>
@@ -2530,10 +2530,10 @@ const SecretDashboard: React.FC = () => {
             <AnimatePresence>
               {openSection === 'debts' && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "1000px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <ItemGrid>
                     {debts.map((item, index) => (
@@ -2622,10 +2622,10 @@ const SecretDashboard: React.FC = () => {
               {showFixedExpenseForm && (
                 <QuickForm
                   $isDarkMode={isDarkMode}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "500px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <form onSubmit={handleFixedExpenseSubmit}>
                     <FormGrid>
@@ -2679,10 +2679,10 @@ const SecretDashboard: React.FC = () => {
             <AnimatePresence>
               {openSection === 'fixed' && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "1000px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <ItemGrid>
                     {fixedExpenses.map((item, index) => (
@@ -2757,10 +2757,10 @@ const SecretDashboard: React.FC = () => {
               {showRecurringIncomeForm && (
                 <QuickForm
                   $isDarkMode={isDarkMode}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "600px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <form onSubmit={handleRecurringIncomeSubmit}>
                     <FormGrid>
@@ -2853,10 +2853,10 @@ const SecretDashboard: React.FC = () => {
             <AnimatePresence>
               {openSection === 'recurring' && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  animate={{ opacity: 1, maxHeight: "1000px", overflow: "visible" }}
+                  exit={{ opacity: 0, maxHeight: 0, overflow: "hidden" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <ItemGrid>
                     {recurringIncomes.map((item, index) => (
