@@ -7,6 +7,7 @@ import { useScroll } from 'framer-motion';
 import * as THREE from 'three';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider as CustomThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -118,14 +119,16 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
-      <LanguageProvider>
-        <AuthProvider>
-          <Router>
-            <GlobalStyle />
-            <AppContent />
-          </Router>
-        </AuthProvider>
-      </LanguageProvider>
+      <CustomThemeProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <Router>
+              <GlobalStyle />
+              <AppContent />
+            </Router>
+          </AuthProvider>
+        </LanguageProvider>
+      </CustomThemeProvider>
     </ThemeProvider>
   );
 };
