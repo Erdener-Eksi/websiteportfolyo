@@ -1,17 +1,20 @@
 import React, { Suspense, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
 import { useScroll } from 'framer-motion';
 import * as THREE from 'three';
 import { LanguageProvider } from './context/LanguageContext';
+import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Portfolio from './pages/Portfolio';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import SecretLogin from './pages/SecretLogin';
+import SecretDashboard from './pages/SecretDashboard';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import GlobalStyle from './styles/GlobalStyle';
@@ -83,32 +86,45 @@ const SpaceBackground = () => {
   );
 };
 
+const AppContent: React.FC = () => {
+  const location = useLocation();
+  const isSecretPage = location.pathname === '/secret-login' || location.pathname === '/secret-dashboard';
+
+  return (
+    <AppContainer>
+      <CanvasContainer>
+        <Canvas camera={{ position: [0, 0, 30], fov: 75 }}>
+          <Suspense fallback={null}>
+            <SpaceBackground />
+          </Suspense>
+        </Canvas>
+      </CanvasContainer>
+      <ContentContainer>
+        {!isSecretPage && <Navbar />}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/secret-login" element={<SecretLogin />} />
+          <Route path="/secret-dashboard" element={<SecretDashboard />} />
+        </Routes>
+        {!isSecretPage && <Footer />}
+      </ContentContainer>
+    </AppContainer>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <LanguageProvider>
-        <Router>
-          <GlobalStyle />
-          <AppContainer>
-            <CanvasContainer>
-              <Canvas camera={{ position: [0, 0, 30], fov: 75 }}>
-                <Suspense fallback={null}>
-                  <SpaceBackground />
-                </Suspense>
-              </Canvas>
-            </CanvasContainer>
-            <ContentContainer>
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/portfolio" element={<Portfolio />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-              </Routes>
-              <Footer />
-            </ContentContainer>
-          </AppContainer>
-        </Router>
+        <AuthProvider>
+          <Router>
+            <GlobalStyle />
+            <AppContent />
+          </Router>
+        </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
   );

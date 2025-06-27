@@ -530,10 +530,15 @@ const Navbar = () => {
     localStorage.setItem('language', lang);
   };
 
+  const handleLogoClick = () => {
+    // Logo'ya tıklandığında gizli giriş sayfasına yönlendir
+    window.location.href = '/secret-login';
+  };
+
   return (
     <>
       <Nav>
-        <Logo to="/">
+        <Logo to="/" onClick={handleLogoClick}>
           <ExclamationMark>!</ExclamationMark>BEE
         </Logo>
         <NavLinks>
